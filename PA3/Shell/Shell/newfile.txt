@@ -1,0 +1,10 @@
+a
+Helper.hpp
+a
+a.out
+a.txt
+asd.txt
+grep a
+l
+main.cpp
+newfile.txt

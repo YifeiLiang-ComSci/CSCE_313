@@ -1,0 +1,6 @@
+asd.txt:asd.txt
+asd.txt: a
+asd.txt:a.out
+asd.txt:a.txt
+asd.txt:asd.txt
+asd.txt:main.cpp
