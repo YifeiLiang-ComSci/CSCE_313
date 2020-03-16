@@ -8,6 +8,44 @@
 
 using namespace std;
 
+static void redirect(std::string &inputline) {
+    if(inputline.find(">")!=string::npos){
+        
+        int index = (int)inputline.find(">");
+        //                    int index1 = (int) inputline.find(" ", index + 1);
+        //                    int length = index1 - index + 1;
+        string filename = inputline.substr(index + 1,inputline.length() - index);
+        filename = trim(filename);
+        int fd = open(filename.c_str(),O_CREAT|O_WRONLY|O_TRUNC,S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        dup2(fd,1);
+        close(fd);
+        inputline = inputline.substr(0,index);
+        char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+        execvp(command[0], command);
+        
+    } else {
+        int index = (int)inputline.find("<");
+        //                    int index1 = (int) inputline.find(" ", index + 1);
+        //                    int length = index1 - index + 1;
+        string filename = inputline.substr(index + 1,inputline.length() - index);
+        
+        // cout<<"length"<<length<<endl;
+        filename = trim(filename);
+        
+        int fd = open(filename.c_str(),O_RDONLY,S_IRUSR);
+        
+        dup2(fd,0);
+        //close(fd);
+        inputline = inputline.substr(0,index);
+        char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+        
+        execvp(command[0], command);
+        
+        
+        
+    }
+}
+
 int main(){
     while(true){
         cout << "My Shell$ ";
@@ -23,41 +61,7 @@ int main(){
             // execvp(args[0],args);
             
             if(redirectCheck(inputline)){
-                if(inputline.find(">")!=string::npos){
-                    
-                    int index = (int)inputline.find(">");
-                    int index1 = (int) inputline.find(" ", index + 1);
-                    int length = index1 - index + 1;
-                    string filename = inputline.substr(index + 1,length);
-                    filename = trim(filename);
-                    int fd = open(filename.c_str(),O_CREAT|O_WRONLY|O_TRUNC,S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-                    dup2(fd,1);
-                    close(fd);
-                    inputline = inputline.substr(0,index);
-                    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
-                    execvp(command[0], command);
-
-                } else {
-                    int index = (int)inputline.find("<");
-//                    int index1 = (int) inputline.find(" ", index + 1);
-//                    int length = index1 - index + 1;
-                    string filename = inputline.substr(index + 1,inputline.length() - index);
-                    
-                   // cout<<"length"<<length<<endl;
-                    filename = trim(filename);
-
-                    int fd = open(filename.c_str(),O_RDONLY,S_IRUSR);
-                    
-                    dup2(fd,0);
-                    //close(fd);
-                    inputline = inputline.substr(0,index);
-                    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
-                    cout<<command[1]<<endl;
-                    execvp(command[0], command);
-                    
-                    
-                    
-                }
+                redirect(inputline);
             }else {
                 char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
                 execvp(command[0], command);
