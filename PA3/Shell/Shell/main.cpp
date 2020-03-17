@@ -63,6 +63,8 @@ int main(){
 
         cout << "My Shell$ ";
         string inputline;
+        cin.clear();
+        cin.sync();
         getline(cin,inputline);
         if(inputline == string("exit")){
             cout <<"Bye!! end of shell"<<endl;
