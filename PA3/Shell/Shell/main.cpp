@@ -59,6 +59,7 @@ void execute(string inputline){
 }
 int main(){
     while(true){
+        cin.clear();
         cout << "My Shell$ ";
         string inputline;
         getline(cin,inputline);
