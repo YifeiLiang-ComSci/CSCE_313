@@ -5,6 +5,8 @@
 #include "Helper.hpp"
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <vector>
+
 
 using namespace std;
 
@@ -45,7 +47,14 @@ static void redirect(std::string &inputline) {
         
     }
 }
-
+void execute(string inputline){
+    if(redirectCheck(inputline)){
+                redirect(inputline);
+            }else {
+                char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+                execvp(command[0], command);
+            }
+}
 int main(){
     while(true){
         cout << "My Shell$ ";
@@ -55,19 +64,38 @@ int main(){
             cout <<"Bye!! end of shell"<<endl;
             break;
         }
+        
+        vector<string> process = split(inputline,"|");
+        int numProcess = (int)process.size();
+        cout<<numProcess<<endl;
         int pid = fork();
         if(pid == 0){
-            // char* args[] = {(char*) inputline.c_str(),NULL};
-            // execvp(args[0],args);
-            
-            if(redirectCheck(inputline)){
-                redirect(inputline);
-            }else {
-                char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
-                execvp(command[0], command);
+        for(int i = 0; i < process.size(); i++){
+            int fd[2];
+            pipe(fd);
+            if(!fork()){
+                if(i < process.size() - 1){
+                    dup2(fd[1], 1);
+                }
+                execute(process[i]);
+            } else {
+                if(i == process.size() - 1)
+                    wait(0);
+                dup2(fd[0],0);
+                close(fd[1]);
             }
-        } else {
+        }
+            
+        } else{
             wait(0);
         }
-    }
+//        if(pid == 0){
+//            // char* args[] = {(char*) inputline.c_str(),NULL};
+//            // execvp(args[0],args);
+//
+//        } else {
+//            wait(0);
+//        }
+   // }
+}
 }

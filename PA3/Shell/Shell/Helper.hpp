@@ -11,11 +11,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <vector>
 
 
 #endif /* Helper_hpp */
 using namespace std;
 
+struct Command{
+    string cmd;
+};
 const std::string WHITESPACE = " \n\r\t\f\v";
 //https://www.techiedelight.com/trim-string-cpp-remove-leading-trailing-spaces/
 std::string ltrim(const std::string& s)
@@ -49,4 +53,18 @@ char** parseInput(char *line,int size){
 }
 bool redirectCheck(string input){
     return (input.find("<")!=string::npos or input.find(">")!=string::npos);
+}
+//https://stackoverflow.com/questions/16286095/similar-function-to-javas-string-split-in-c
+vector<string> split(string str,string separator){
+    char* c_str=const_cast<char*>(str.c_str());
+    char* curr;
+    vector<string> commands;
+    curr = strtok(c_str, separator.c_str());
+    while(curr!=NULL){
+        trim(curr);
+        commands.push_back(curr);
+        curr=strtok(NULL,separator.c_str());
+        
+    }
+    return commands;
 }
