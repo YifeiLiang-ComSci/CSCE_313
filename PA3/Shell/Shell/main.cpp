@@ -53,7 +53,7 @@ void execute(string inputline){
     // if(redirectCheck(inputline)){
     //             redirect(inputline);
     //         }else {
-    //             char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+                char** command = parseInput((char*)inputline.c_str(),inputline.length());
                 execvp(command[0], command);
     //         }
 }
