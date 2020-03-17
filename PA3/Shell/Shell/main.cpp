@@ -89,7 +89,8 @@ int main(){
         }
             
         } else{
-            wait(0);
+            int* status;
+            waitpid(pid,status,0);
         }
 //        if(pid == 0){
 //            // char* args[] = {(char*) inputline.c_str(),NULL};
