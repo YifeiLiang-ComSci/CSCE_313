@@ -50,12 +50,12 @@ static void redirect(std::string &inputline) {
     }
 }
 void execute(string inputline){
-    if(redirectCheck(inputline)){
-                redirect(inputline);
-            }else {
-                char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
-                execvp(command[0], command);
-            }
+    // if(redirectCheck(inputline)){
+    //             redirect(inputline);
+    //         }else {
+    //             char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    //             execvp(command[0], command);
+    //         }
 }
 int main(){
     while(true){
@@ -93,7 +93,7 @@ int main(){
         } else{
             int* status;
             waitpid(pid,status,0);
-            cin.ignore();
+
         }
 //        if(pid == 0){
 //            // char* args[] = {(char*) inputline.c_str(),NULL};
