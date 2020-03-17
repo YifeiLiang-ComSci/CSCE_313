@@ -59,7 +59,7 @@ void execute(string inputline){
 }
 int main(){
     while(true){
-        cin.clear();
+
         cin.ignore();
         cout << "My Shell$ ";
         string inputline;
