@@ -69,7 +69,7 @@ int main(){
         
         vector<string> process = split(inputline,"|");
         int numProcess = (int)process.size();
-        cout<<numProcess<<endl;
+
         int pid = fork();
         if(pid == 0){
         for(int i = 0; i < process.size(); i++){
