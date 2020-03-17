@@ -60,7 +60,7 @@ void execute(string inputline){
 int main(){
     while(true){
 
-        cin.ignore();
+
         cout << "My Shell$ ";
         string inputline;
         getline(cin,inputline);
@@ -93,6 +93,7 @@ int main(){
         } else{
             int* status;
             waitpid(pid,status,0);
+            cin.ignore();
         }
 //        if(pid == 0){
 //            // char* args[] = {(char*) inputline.c_str(),NULL};
