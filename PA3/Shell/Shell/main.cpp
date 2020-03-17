@@ -70,7 +70,7 @@ int main(){
             cout <<"Bye!! end of shell"<<endl;
             break;
         }
-        
+        cout<<"inputline: "<<inputline<<endl;
         vector<string> process = split(inputline,"|");
         int numProcess = (int)process.size();
 
