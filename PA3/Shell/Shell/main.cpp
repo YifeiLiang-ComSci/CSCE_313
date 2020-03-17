@@ -6,6 +6,8 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <vector>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 
 using namespace std;
