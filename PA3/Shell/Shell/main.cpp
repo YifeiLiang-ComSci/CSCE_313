@@ -53,8 +53,8 @@ void execute(string inputline){
     // if(redirectCheck(inputline)){
     //             redirect(inputline);
     //         }else {
-                char** command = parseInput((char*)inputline.c_str(),inputline.length());
-                execvp(command[0], command);
+                //char** command = parseInput((char*)inputline.c_str(),inputline.length());
+                //execvp(command[0], command);
     //         }
 }
 int main(){
@@ -65,7 +65,7 @@ int main(){
         string inputline;
         
         getline(cin,inputline);
-        cin.ignore();
+
         if(inputline == string("exit")){
             cout <<"Bye!! end of shell"<<endl;
             break;
