@@ -54,7 +54,7 @@ void execute(string inputline){
                  redirect(inputline);
             }else {
                 char** command = parseInput((char*)inputline.c_str(),inputline.length());
-                //execvp("ls",);
+                execvp(command[0],command);
              }
 }
 int main(){
