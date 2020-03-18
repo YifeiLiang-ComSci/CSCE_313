@@ -74,8 +74,8 @@ int main(){
         vector<string> process = split(inputline,"|");
         int numProcess = (int)process.size();
 
-        int pid = fork();
-        if(pid == 0){
+
+
         for(int i = 0; i < process.size(); i++){
             int fd[2];
             pipe(fd);
@@ -93,11 +93,7 @@ int main(){
             }
         }
             
-        } else{
-            int* status;
-            waitpid(pid,status,0);
-
-        }
+       
 //        if(pid == 0){
 //            // char* args[] = {(char*) inputline.c_str(),NULL};
 //            // execvp(args[0],args);
