@@ -82,6 +82,7 @@ int main(){
             if(!fork()){
                 if(i < process.size() - 1){
                     dup2(fd[1], 1);
+                    close(fd[1]);
                 }
                 execute(process[i]);
             } else {
