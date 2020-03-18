@@ -50,12 +50,12 @@ static void redirect(std::string &inputline) {
     }
 }
 void execute(string inputline){
-    // if(redirectCheck(inputline)){
-    //             redirect(inputline);
-    //         }else {
+     if(redirectCheck(inputline)){
+                 redirect(inputline);
+            }else {
                 char** command = parseInput((char*)inputline.c_str(),inputline.length());
-                execvp("ls","", NULL);
-    //         }
+                //execvp("ls",);
+             }
 }
 int main(){
     while(true){
