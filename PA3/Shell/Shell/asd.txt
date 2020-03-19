@@ -1,0 +1,12 @@
+min3
+Helper.hpp
+a.out
+a.txt
+asd.txt
+da.txt
+main
+main.cpp
+main.o
+makefile
+shell
+yifei.txt
