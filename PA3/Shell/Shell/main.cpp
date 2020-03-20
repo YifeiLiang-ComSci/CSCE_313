@@ -88,61 +88,61 @@ static void redirect(std::string &inputline) {
     execvp(command[0], command);
 }
 void execute(string command){
-     // if(redirectCheck(inputline)){
-     //             redirect(inputline);
-     //        }else {
-     //            char** command = parseInput((char*)inputline.c_str(),inputline.length());
-     //            execvp(command[0],command);
-     //         }
-	bool mi = false;
-    vector<string> argstrings = split (command, " "); // split the command into space-separated parts
-    int i = 0;
-    while(argstrings.size()>i){
-        if (argstrings[i].find("\"")==string::npos && argstrings[i].find("'")==string::npos ){
-            if (argstrings[i].find(">")!=string::npos){ // redirect output case
-            if (argstrings[i]==">"){
-                argstrings.erase(argstrings.begin()+i);
-            }else{cout << "special case to be handled" << endl;}
-
-            int write_to = open(argstrings[i].c_str(), O_CREAT|O_WRONLY|O_TRUNC, S_IWUSR);
-            dup2(write_to,1);
-            close(write_to);
-            argstrings.erase(argstrings.begin()+i);
-            }else if (argstrings[i].find("<")!=string::npos){
-                if (argstrings[i]=="<"){
-                    argstrings.erase(argstrings.begin()+i);
-                }else{cout << "special case to be handled" << endl;}
-                int read_from = open(argstrings[i].c_str(), O_RDONLY,S_IRUSR);
-                dup2(read_from,0);
-                close(read_from);
-                argstrings.erase(argstrings.begin()+i);
+     if(redirectCheck(inputline)){
+                 redirect(inputline);
             }else {
-                i++;
-            }
-        }else{
-            i++;
-        }
-    }
-    for (int i=0; i<argstrings.size();i++){
-        argstrings[i]=trim(argstrings[i]);
-    }
-    if (argstrings[0]=="cd"){
-        char cwd[256];
-        if (argstrings[1] == "-"){
-            argstrings[1] = "..";
-            mi = true;
-        }
-        char** args = vec_to_char_array (argstrings);// convert vec<string> into an array of char*
-        chdir(args[1]);
-        if (mi){
-            getcwd(cwd,sizeof(cwd));
-            cout << cwd << endl;
-        }
-        return;
-    }else {
-        char** args = vec_to_char_array (argstrings);// convert vec<string> into an array of char*
-        execvp (args[0], args);
-    }
+                char** command = parseInput((char*)inputline.c_str(),inputline.length());
+                execvp(command[0],command);
+             }
+	// bool mi = false;
+ //    vector<string> argstrings = split (command, " "); // split the command into space-separated parts
+ //    int i = 0;
+ //    while(argstrings.size()>i){
+ //        if (argstrings[i].find("\"")==string::npos && argstrings[i].find("'")==string::npos ){
+ //            if (argstrings[i].find(">")!=string::npos){ // redirect output case
+ //            if (argstrings[i]==">"){
+ //                argstrings.erase(argstrings.begin()+i);
+ //            }else{cout << "special case to be handled" << endl;}
+
+ //            int write_to = open(argstrings[i].c_str(), O_CREAT|O_WRONLY|O_TRUNC, S_IWUSR);
+ //            dup2(write_to,1);
+ //            close(write_to);
+ //            argstrings.erase(argstrings.begin()+i);
+ //            }else if (argstrings[i].find("<")!=string::npos){
+ //                if (argstrings[i]=="<"){
+ //                    argstrings.erase(argstrings.begin()+i);
+ //                }else{cout << "special case to be handled" << endl;}
+ //                int read_from = open(argstrings[i].c_str(), O_RDONLY,S_IRUSR);
+ //                dup2(read_from,0);
+ //                close(read_from);
+ //                argstrings.erase(argstrings.begin()+i);
+ //            }else {
+ //                i++;
+ //            }
+ //        }else{
+ //            i++;
+ //        }
+ //    }
+ //    for (int i=0; i<argstrings.size();i++){
+ //        argstrings[i]=trim(argstrings[i]);
+ //    }
+ //    if (argstrings[0]=="cd"){
+ //        char cwd[256];
+ //        if (argstrings[1] == "-"){
+ //            argstrings[1] = "..";
+ //            mi = true;
+ //        }
+ //        char** args = vec_to_char_array (argstrings);// convert vec<string> into an array of char*
+ //        chdir(args[1]);
+ //        if (mi){
+ //            getcwd(cwd,sizeof(cwd));
+ //            cout << cwd << endl;
+ //        }
+ //        return;
+ //    }else {
+ //        char** args = vec_to_char_array (argstrings);// convert vec<string> into an array of char*
+ //        execvp (args[0], args);
+ //    }
 }
 int main(){
     while(true){
