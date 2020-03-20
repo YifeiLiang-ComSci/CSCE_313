@@ -100,8 +100,10 @@ void execute(string inputline){
                     path = "..";
                 }
                 cout<<"path"<<path<<endl;
+
                 chdir(path.c_str());
                 return;
+
             }
 
 
