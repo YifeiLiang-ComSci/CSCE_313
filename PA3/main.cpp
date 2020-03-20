@@ -99,6 +99,7 @@ void execute(string inputline){
                 if(path.at(0) == '-'){
                     path = "..";
                 }
+                cout<<"path"<<path<<endl;
                 chdir(path.c_str());
                 return;
             }
