@@ -8,6 +8,7 @@
 #include <vector>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <dirent.h>
 
 
 using namespace std;
@@ -88,12 +89,32 @@ static void redirect(std::string &inputline) {
     execvp(command[0], command);
 }
 void execute(string inputline){
+    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
      if(redirectCheck(inputline)){
                  redirect(inputline);
-            }else {
+            }else if((string)command[0] == "cd"){
+                int index = inputline.find("cd");
+                string path = inputline.substr(index + 2);
+                inputline = trim(inputline);
+                if(inputline.at(0) == '-'){
+                    inputline = "..";
+                }
+                chdir(inputline.c_str());
+                return;
+            }
+
+
+
+
+
+
+
+
+            else {
                 char** command = parseInput((char*)inputline.c_str(),inputline.length());
                 execvp(command[0],command);
              }
+
 	// bool mi = false;
  //    vector<string> argstrings = split (command, " "); // split the command into space-separated parts
  //    int i = 0;
