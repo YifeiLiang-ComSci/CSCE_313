@@ -146,6 +146,8 @@ void execute(string command){
 }
 int main(){
     while(true){
+    	  int stdin = dup(0);
+        	int stdout = dup(1);
     	vector<int>backgrounds;
 
         cout << "My Shell$ ";
@@ -185,6 +187,7 @@ if(numProcess > 1){
 	for (int i=0;  i < tparts.size(); i++){
             // make pipe
             int fd[2];
+          
             pipe(fd);
             pid_t pid = fork();
 			if (!pid){
@@ -212,6 +215,10 @@ if(numProcess > 1){
                 close(fd[0]);
             }
         }
+        dup2(stdin,0);
+        dup2(stdout,1);
+        close(stdin);
+        close(stdout);
         // for(int i = 0; i < process.size(); i++){
         //     int fd[2];
         //     pipe(fd);
