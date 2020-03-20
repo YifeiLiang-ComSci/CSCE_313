@@ -104,7 +104,7 @@ void execute(string inputline){
 
                 chdir(path.c_str());
                 getcwd(cwd,sizeof(cwd));
-                cout << cwd<<endl;
+                cout << "in child"<<cwd<<endl;
                 return;
 
             }
@@ -175,7 +175,7 @@ int main(){
     getcwd(cwd,sizeof(cwd));
     while(true){
         chdir(cwd);
-        cout<<"in paretnt cwd:"<<cwd;
+        cout<<"in paretnt cwd:"<<cwd<<endl;;
         getcwd(cwd,sizeof(cwd));
         cout << cwd<<"-";
     	  int stdin = dup(0);
