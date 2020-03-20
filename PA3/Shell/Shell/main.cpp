@@ -119,7 +119,7 @@ int main(){
     }
 
 
-
+if(numProcess > 1){
         for(int i = 0; i < process.size(); i++){
             int fd[2];
             pipe(fd);
@@ -144,7 +144,7 @@ int main(){
 
             }
         }
-            
+}   
        
 //        if(pid == 0){
 //            // char* args[] = {(char*) inputline.c_str(),NULL};
