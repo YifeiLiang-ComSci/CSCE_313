@@ -106,6 +106,7 @@ int main(){
         	if(redirectCheck(inputline)){
         		redirect(inputline);
         	}else {
+        		cout<<"run"<<endl;
                 char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
                 execvp(command[0], command);
             }
@@ -127,6 +128,7 @@ int main(){
                     dup2(fd[1], 1);
                     close(fd[1]);
                 }
+                close(fd[0])
                 if(fork() == 0){
                 execute(process[i]);
             } else {
@@ -137,7 +139,9 @@ int main(){
                 if(i == process.size() - 1)
                     wait(0);
                 dup2(fd[0],0);
+                close(fd[0])
                 close(fd[1]);
+
             }
         }
             
