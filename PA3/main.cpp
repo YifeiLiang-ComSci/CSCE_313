@@ -175,6 +175,7 @@ int main(){
     getcwd(cwd,sizeof(cwd));
     while(true){
         chdir(cwd);
+        cout<<"in paretnt cwd:"<<cwd;
         getcwd(cwd,sizeof(cwd));
         cout << cwd<<"-";
     	  int stdin = dup(0);
