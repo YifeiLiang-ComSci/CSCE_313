@@ -186,26 +186,26 @@ int main(){
         }
          vector<string> process = split(inputline,"|");
         int numProcess = (int)process.size();
-        if(numProcess == 1){
-        int pid = fork();
-        if(pid == 0){
-        	if(redirectCheck(inputline)){
-        		redirect(inputline);
-        	}else {
-        		cout<<"run"<<endl;
-                char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
-                execvp(command[0], command);
-            }
-        } else {
-        	wait(0);
-        }
-    }
+     //   if(numProcess == 1){
+    //     int pid = fork();
+    //     if(pid == 0){
+    //     	if(redirectCheck(inputline)){
+    //     		redirect(inputline);
+    //     	}else {
+    //     		cout<<"run"<<endl;
+    //             char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    //             execvp(command[0], command);
+    //         }
+    //     } else {
+    //     	wait(0);
+    //     }
+    // }
 
        
     
 
 
-if(numProcess > 1){
+//if(numProcess > 1){
 	// for (int i=0;  i < tparts.size(); i++){
  //            // make pipe
  //            int fd[2];
@@ -278,4 +278,4 @@ if(numProcess > 1){
 //        }
    // }
 }
-}
+//}
