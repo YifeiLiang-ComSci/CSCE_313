@@ -87,7 +87,7 @@ static void redirect(std::string &inputline) {
     char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
     execvp(command[0], command);
 }
-void execute(string command){
+void execute(string inputline){
      if(redirectCheck(inputline)){
                  redirect(inputline);
             }else {
