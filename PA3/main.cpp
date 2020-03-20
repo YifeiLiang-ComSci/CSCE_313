@@ -223,7 +223,7 @@ if(numProcess > 1){
             int fd[2];
             pipe(fd);
             int pid = fork();
-            if(!fork()){
+            if(pid==0){
                 if(i < process.size() - 1){
                     dup2(fd[1], 1);
                     close(fd[1]);
@@ -234,7 +234,7 @@ if(numProcess > 1){
 
             } else {
                 if(i == process.size() - 1)
-                     wait(0);
+                     waitpid(pid,0,0); 
                 dup2(fd[0],0);
                 close(fd[0]);
                 close(fd[1]);
