@@ -172,7 +172,7 @@ int main(){
         } else {
         	wait(0);
         }
-        cout<<"inputline: "<<inputline<<endl;
+
         vector<string> process = split(inputline,"|");
         int numProcess = (int)process.size();
     }
@@ -188,11 +188,8 @@ if(numProcess > 1){
                     close(fd[1]);
                 }
                 close(fd[0]);
-                if(fork() == 0){
+              
                 execute(process[i]);
-            } else {
-            	continue;
-            }
 
             } else {
                 if(i == process.size() - 1)
