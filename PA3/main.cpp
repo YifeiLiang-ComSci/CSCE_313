@@ -168,6 +168,8 @@ void execute(string inputline){
 }
 int main(){
     while(true){
+        char cwd[100];
+        getcwd(cwd,sizeof(cwd));
     	  int stdin = dup(0);
         	int stdout = dup(1);
     	vector<int>backgrounds;
