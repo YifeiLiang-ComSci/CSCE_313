@@ -100,6 +100,13 @@ void execute(string inputline){
                 if(path.at(0) == '-'){
                     path = "..";
                 }
+                if(path == ".."){
+                    char currentpath[512];
+                    getcwd(currentpath,sizeof(currentpath));
+                    string curr(currentpath);
+                    size_t found = curr.find_last_of("/\\");
+                    path = curr.substr(0,found);
+                }
                 cout<<"path"<<path<<endl;
 
                 chdir(path.c_str());
