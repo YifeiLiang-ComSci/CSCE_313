@@ -222,6 +222,7 @@ if(numProcess > 1){
         for(int i = 0; i < process.size(); i++){
             int fd[2];
             pipe(fd);
+            int pid = fork();
             if(!fork()){
                 if(i < process.size() - 1){
                     dup2(fd[1], 1);
