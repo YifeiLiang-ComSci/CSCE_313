@@ -103,7 +103,7 @@ void execute(string inputline){
                 cout<<"path"<<path<<endl;
 
                 chdir(path.c_str());
-                getcwd(cwd,sizeof(pathc));
+                getcwd(cwd,sizeof(cwd));
                 cout << cwd<<endl;
                 return;
 
