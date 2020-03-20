@@ -168,8 +168,9 @@ void execute(string inputline){
 }
 int main(){
     while(true){
-        char cwd[100];
+        char cwd[512];
         getcwd(cwd,sizeof(cwd));
+        cout << cwd<<"-";
     	  int stdin = dup(0);
         	int stdout = dup(1);
     	vector<int>backgrounds;
