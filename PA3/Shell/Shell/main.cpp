@@ -11,6 +11,16 @@
 
 
 using namespace std;
+char** vec_to_char_array (vector<string> parts){
+    char ** result = new char * [parts.size() + 1]; // add 1 for the NULL at the end
+    for (int i=0; i<parts.size(); i++){
+        // allocate a big enough string
+        result [i] = new char [parts [i].size() + 1]; // add 1 for the NULL byte
+        strcpy (result [i], parts[i].c_str());
+    }
+    result [parts.size()] = NULL;
+    return result;
+}
 
 static void redirect(std::string &inputline) {
 	int temp1 = (int)inputline.find("<");
@@ -77,13 +87,62 @@ static void redirect(std::string &inputline) {
     char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
     execvp(command[0], command);
 }
-void execute(string inputline){
-     if(redirectCheck(inputline)){
-                 redirect(inputline);
+void execute(string command){
+     // if(redirectCheck(inputline)){
+     //             redirect(inputline);
+     //        }else {
+     //            char** command = parseInput((char*)inputline.c_str(),inputline.length());
+     //            execvp(command[0],command);
+     //         }
+	bool mi = false;
+    vector<string> argstrings = split (command, " "); // split the command into space-separated parts
+    int i = 0;
+    while(argstrings.size()>i){
+        if (argstrings[i].find("\"")==string::npos && argstrings[i].find("'")==string::npos ){
+            if (argstrings[i].find(">")!=string::npos){ // redirect output case
+            if (argstrings[i]==">"){
+                argstrings.erase(argstrings.begin()+i);
+            }else{cout << "special case to be handled" << endl;}
+
+            int write_to = open(argstrings[i].c_str(), O_CREAT|O_WRONLY|O_TRUNC, S_IWUSR);
+            dup2(write_to,1);
+            close(write_to);
+            argstrings.erase(argstrings.begin()+i);
+            }else if (argstrings[i].find("<")!=string::npos){
+                if (argstrings[i]=="<"){
+                    argstrings.erase(argstrings.begin()+i);
+                }else{cout << "special case to be handled" << endl;}
+                int read_from = open(argstrings[i].c_str(), O_RDONLY,S_IRUSR);
+                dup2(read_from,0);
+                close(read_from);
+                argstrings.erase(argstrings.begin()+i);
             }else {
-                char** command = parseInput((char*)inputline.c_str(),inputline.length());
-                execvp(command[0],command);
-             }
+                i++;
+            }
+        }else{
+            i++;
+        }
+    }
+    for (int i=0; i<argstrings.size();i++){
+        argstrings[i]=trim(argstrings[i]);
+    }
+    if (argstrings[0]=="cd"){
+        char cwd[256];
+        if (argstrings[1] == "-"){
+            argstrings[1] = "..";
+            mi = true;
+        }
+        char** args = vec_to_char_array (argstrings);// convert vec<string> into an array of char*
+        chdir(args[1]);
+        if (mi){
+            getcwd(cwd,sizeof(cwd));
+            cout << cwd << endl;
+        }
+        return;
+    }else {
+        char** args = vec_to_char_array (argstrings);// convert vec<string> into an array of char*
+        execvp (args[0], args);
+    }
 }
 int main(){
     while(true){
