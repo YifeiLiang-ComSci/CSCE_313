@@ -12,6 +12,7 @@
 
 
 using namespace std;
+char cwd[1024];
 char** vec_to_char_array (vector<string> parts){
     char ** result = new char * [parts.size() + 1]; // add 1 for the NULL at the end
     for (int i=0; i<parts.size(); i++){
@@ -103,7 +104,7 @@ void execute(string inputline){
 
                 chdir(path.c_str());
                 char pathc[512];
-                getcwd(pathc,sizeof(pathc));
+                getcwd(cwd,sizeof(pathc));
                 cout << pathc<<endl;
                 return;
 
@@ -172,8 +173,9 @@ void execute(string inputline){
  //    }
 }
 int main(){
+    getcwd(cwd,sizeof(cwd));
     while(true){
-        char cwd[512];
+        chdir(cwd);
         getcwd(cwd,sizeof(cwd));
         cout << cwd<<"-";
     	  int stdin = dup(0);
