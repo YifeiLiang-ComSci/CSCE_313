@@ -99,6 +99,8 @@ void execute(string inputline){
                 path = trim(path);
                 if(path=="-"){
                     path = "..";
+                } else {
+                    cout<<"path not equal to -"<<endl;
                 }
                 if(path == ".."){
                     cout<<"run"<<endl;
