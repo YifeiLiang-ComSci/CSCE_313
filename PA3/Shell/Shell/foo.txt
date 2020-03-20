@@ -1,0 +1,16 @@
+total 1056
+drwxr-xr-x  15 yifeiliang  staff     480 Mar 20 11:55 .
+drwxr-xr-x@  5 yifeiliang  staff     160 Mar 20 11:55 ..
+-rw-r--r--@  1 yifeiliang  staff    6148 Mar 17 13:23 .DS_Store
+-rw-r--r--@  1 yifeiliang  staff    1728 Mar 17 13:07 Helper.hpp
+-rwxr-xr-x   1 yifeiliang  staff   63456 Mar 17 13:19 a.out
+-rw-r--r--   1 yifeiliang  staff      40 Mar 19 12:13 a.txt
+-rw-r--r--   1 yifeiliang  staff      89 Mar 19 12:12 asd.txt
+-rw-r--r--   1 yifeiliang  staff       0 Mar 19 12:06 da.txt
+-rw-r--r--   1 yifeiliang  staff       0 Mar 20 11:55 foo.txt
+-rwxr-xr-x   1 yifeiliang  staff   63672 Mar 18 16:21 main
+-rw-r--r--@  1 yifeiliang  staff    4067 Mar 19 12:14 main.cpp
+-rw-r--r--   1 yifeiliang  staff  234008 Mar 20 11:55 main.o
+-rw-r--r--   1 yifeiliang  staff     120 Mar 17 16:40 makefile
+-rwxr-xr-x   1 yifeiliang  staff   93404 Mar 20 11:55 shell
+-rw-r--r--   1 yifeiliang  staff       0 Mar 19 12:08 yifei.txt

@@ -98,6 +98,9 @@ int main(){
             cout <<"Bye!! end of shell"<<endl;
             break;
         }
+         vector<string> process = split(inputline,"|");
+        int numProcess = (int)process.size();
+        if(numProcess == 1){
         int pid = fork();
         if(pid == 0){
         	if(redirectCheck(inputline)){
@@ -112,25 +115,31 @@ int main(){
         cout<<"inputline: "<<inputline<<endl;
         vector<string> process = split(inputline,"|");
         int numProcess = (int)process.size();
+    }
 
 
 
-        // for(int i = 0; i < process.size(); i++){
-        //     int fd[2];
-        //     pipe(fd);
-        //     if(!fork()){
-        //         if(i < process.size() - 1){
-        //             dup2(fd[1], 1);
-        //             close(fd[1]);
-        //         }
-        //         execute(process[i]);
-        //     } else {
-        //         if(i == process.size() - 1)
-        //             wait(0);
-        //         dup2(fd[0],0);
-        //         close(fd[1]);
-        //     }
-        // }
+        for(int i = 0; i < process.size(); i++){
+            int fd[2];
+            pipe(fd);
+            if(!fork()){
+                if(i < process.size() - 1){
+                    dup2(fd[1], 1);
+                    close(fd[1]);
+                }
+                if(fork() == 0){
+                execute(process[i]);
+            } else {
+            	continue;
+            }
+
+            } else {
+                if(i == process.size() - 1)
+                    wait(0);
+                dup2(fd[0],0);
+                close(fd[1]);
+            }
+        }
             
        
 //        if(pid == 0){
