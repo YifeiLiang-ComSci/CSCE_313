@@ -223,7 +223,7 @@ if(numProcess > 1){
         //     int fd[2];
         //     pipe(fd);
         //     if(!fork()){
-        //         if(i < process.size() - 1){
+        //         if(i < process.size() - 1){asd
         //             dup2(fd[1], 1);
         //             close(fd[1]);
         //         }
@@ -233,7 +233,7 @@ if(numProcess > 1){
 
         //     } else {
         //         if(i == process.size() - 1)
-        //             wait(0);
+        //              wait(0);
         //         dup2(fd[0],0);
         //         close(fd[0]);
         //         close(fd[1]);
