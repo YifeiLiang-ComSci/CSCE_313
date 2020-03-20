@@ -95,11 +95,11 @@ void execute(string inputline){
             }else if((string)command[0] == "cd"){
                 int index = inputline.find("cd");
                 string path = inputline.substr(index + 2);
-                inputline = trim(inputline);
-                if(inputline.at(0) == '-'){
-                    inputline = "..";
+                path = trim(path);
+                if(path.at(0) == '-'){
+                    path = "..";
                 }
-                chdir(inputline.c_str());
+                chdir(path.c_str());
                 return;
             }
 
