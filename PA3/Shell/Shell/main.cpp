@@ -146,19 +146,22 @@ void execute(string command){
 }
 int main(){
     while(true){
-
+    	vector<int>backgrounds;
 
         cout << "My Shell$ ";
         string inputline;
-        
+        bool background = false;
         getline(cin,inputline);
+        if(inputline.find('&') != string::npos){
+        	background = true;
+        }
 
         if(inputline == string("exit")){
             cout <<"Bye!! end of shell"<<endl;
             break;
         }
-         vector<string> process = split(inputline,"|");
-        int numProcess = (int)process.size();
+         vector<string> tparts = split(inputline,"|");
+        int numProcess = (int)tparts.size();
         if(numProcess == 1){
         int pid = fork();
         if(pid == 0){
@@ -172,34 +175,64 @@ int main(){
         } else {
         	wait(0);
         }
-
-        vector<string> process = split(inputline,"|");
-        int numProcess = (int)process.size();
     }
+
+       
+    
 
 
 if(numProcess > 1){
-        for(int i = 0; i < process.size(); i++){
+	for (int i=0;  i < tparts.size(); i++){
+            // make pipe
             int fd[2];
             pipe(fd);
-            if(!fork()){
-                if(i < process.size() - 1){
-                    dup2(fd[1], 1);
-                    close(fd[1]);
+            pid_t pid = fork();
+			if (!pid){
+                close (fd[0]);
+                // redirect output to the next level
+                // unless this is the last level
+                if (i < tparts.size() - 1){
+                    dup2(fd[1],1);// redirect STDOUT to fd[1], so that it can write to the other side
+                    close (fd[1]);// STDOUT already points fd[1], which can be closed
                 }
-                close(fd[0]);
-              
-                execute(process[i]);
-
-            } else {
-                if(i == process.size() - 1)
-                    wait(0);
+                //execute function that can split the command by spaces to 
+                // find out all the arguments, see the definition
+                execute (tparts [i]); // this is where you execute
+            }else{
+                if (!background){
+                    waitpid(pid,NULL,0);            // wait for the child process // waitpid(pid,0,WNOHANG); works too
+                    background = false;
+                }else{
+                    backgrounds.push_back(pid);
+                    background = false;
+                }
+				// then do other redirects
                 dup2(fd[0],0);
-                close(fd[0]);
                 close(fd[1]);
-
+                close(fd[0]);
             }
         }
+        // for(int i = 0; i < process.size(); i++){
+        //     int fd[2];
+        //     pipe(fd);
+        //     if(!fork()){
+        //         if(i < process.size() - 1){
+        //             dup2(fd[1], 1);
+        //             close(fd[1]);
+        //         }
+        //         close(fd[0]);
+              
+        //         execute(process[i]);
+
+        //     } else {
+        //         if(i == process.size() - 1)
+        //             wait(0);
+        //         dup2(fd[0],0);
+        //         close(fd[0]);
+        //         close(fd[1]);
+
+        //     }
+        // }
 }   
        
 //        if(pid == 0){
