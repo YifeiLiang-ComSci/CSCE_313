@@ -162,8 +162,8 @@ int main(){
             cout <<"Bye!! end of shell"<<endl;
             break;
         }
-         vector<string> tparts = split(inputline,"|");
-        int numProcess = (int)tparts.size();
+         vector<string> process = split(inputline,"|");
+        int numProcess = (int)process.size();
         if(numProcess == 1){
         int pid = fork();
         if(pid == 0){
@@ -184,62 +184,66 @@ int main(){
 
 
 if(numProcess > 1){
-	for (int i=0;  i < tparts.size(); i++){
-            // make pipe
-            int fd[2];
+	// for (int i=0;  i < tparts.size(); i++){
+ //            // make pipe
+ //            int fd[2];
           
+ //            pipe(fd);
+ //            pid_t pid = fork();
+	// 		if (!pid){
+ //                close (fd[0]);
+ //                // redirect output to the next level
+ //                // unless this is the last level
+ //                if (i < tparts.size() - 1){
+ //                    dup2(fd[1],1);// redirect STDOUT to fd[1], so that it can write to the other side
+ //                    close (fd[1]);// STDOUT already points fd[1], which can be closed
+ //                }
+ //                //execute function that can split the command by spaces to 
+ //                // find out all the arguments, see the definition
+ //                execute (tparts [i]); // this is where you execute
+ //            }else{
+ //                if (!background){
+ //                    waitpid(pid,NULL,0);            // wait for the child process // waitpid(pid,0,WNOHANG); works too
+ //                    background = false;
+ //                }else{
+ //                    backgrounds.push_back(pid);
+ //                    background = false;
+ //                }
+	// 			// then do other redirects
+ //                dup2(fd[0],0);
+ //                close(fd[1]);
+ //                close(fd[0]);
+ //            }
+ //        }
+ //        dup2(stdin,0);
+ //        dup2(stdout,1);
+ //        close(stdin);
+ //        close(stdout);
+        for(int i = 0; i < process.size(); i++){
+            int fd[2];
             pipe(fd);
-            pid_t pid = fork();
-			if (!pid){
-                close (fd[0]);
-                // redirect output to the next level
-                // unless this is the last level
-                if (i < tparts.size() - 1){
-                    dup2(fd[1],1);// redirect STDOUT to fd[1], so that it can write to the other side
-                    close (fd[1]);// STDOUT already points fd[1], which can be closed
+            if(!fork()){
+                if(i < process.size() - 1){
+                    dup2(fd[1], 1);
+                    close(fd[1]);
                 }
-                //execute function that can split the command by spaces to 
-                // find out all the arguments, see the definition
-                execute (tparts [i]); // this is where you execute
-            }else{
-                if (!background){
-                    waitpid(pid,NULL,0);            // wait for the child process // waitpid(pid,0,WNOHANG); works too
-                    background = false;
-                }else{
-                    backgrounds.push_back(pid);
-                    background = false;
-                }
-				// then do other redirects
-                dup2(fd[0],0);
-                close(fd[1]);
                 close(fd[0]);
+              
+                execute(process[i]);
+
+            } else {
+                if(i == process.size() - 1)
+                     wait(0);
+                dup2(fd[0],0);
+                close(fd[0]);
+                close(fd[1]);
+
             }
         }
-        // dup2(stdin,0);
-        // dup2(stdout,1);
-        // close(stdin);
-        // close(stdout);
-        // for(int i = 0; i < process.size(); i++){
-        //     int fd[2];
-        //     pipe(fd);
-        //     if(!fork()){
-        //         if(i < process.size() - 1){asd
-        //             dup2(fd[1], 1);
-        //             close(fd[1]);
-        //         }
-        //         close(fd[0]);
-              
-        //         execute(process[i]);
-
-        //     } else {
-        //         if(i == process.size() - 1)
-        //              wait(0);
-        //         dup2(fd[0],0);
-        //         close(fd[0]);
-        //         close(fd[1]);
-
-        //     }
-        // }
+        dup2(stdin,0);
+        dup2(stdout,1);
+        close(stdin);
+        close(stdout);
 }   
        
 //        if(pid == 0){
