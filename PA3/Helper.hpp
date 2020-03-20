@@ -55,78 +55,78 @@ bool redirectCheck(string input){
     return (input.find("<")!=string::npos or input.find(">")!=string::npos);
 }
 //https://stackoverflow.com/questions/16286095/similar-function-to-javas-string-split-in-c
-// vector<string> split(string str,string separator){
-//     char* c_str=const_cast<char*>(str.c_str());
-//     char* curr;
-//     vector<string> commands;
-//     curr = strtok(c_str, separator.c_str());
-//     while(curr!=NULL){
-//         trim(curr);
-//         commands.push_back(curr);
-//         curr=strtok(NULL,separator.c_str());
+vector<string> split(string str,string separator){
+    char* c_str=const_cast<char*>(str.c_str());
+    char* curr;
+    vector<string> commands;
+    curr = strtok(c_str, separator.c_str());
+    while(curr!=NULL){
+        trim(curr);
+        commands.push_back(curr);
+        curr=strtok(NULL,separator.c_str());
         
-//     }
-//     return commands;
-// }
-vector<string> split (string line, string separator=" "){
-    vector<string> result;
-    while (line.size()){
-        if (line.find("'")==0 && separator==" "){
-            // cout << "Sicong Found" << endl;
-            size_t found = (line.substr(1)).find("'")+1;
-            if (found == string::npos){
-                cout << "last part" << endl;
-                string lastpart = line;
-                if (lastpart.size()>0){
-                    result.push_back(lastpart);
-                }
-                break;
-            }
-            string segment = (line.substr(0,found+1));
-            // cout << "line: " << line << "found: " << found << endl;
-            line = line.substr (found+1);
-            // cout << "[" << segment << "]"<< endl;
-            if (segment.size() != 0) 
-                result.push_back (segment);
-            // cout << line << endl;
-        }else if (line.find("\"")==0 && separator==" "){
-            // cout << "Sicong Found" << endl;
-            size_t found = (line.substr(1)).find("\"")+1;
-            if (found == string::npos){
-                cout << "last part" << endl;
-                string lastpart = line;
-                if (lastpart.size()>0){
-                    result.push_back(lastpart);
-                }
-                break;
-            }
-            string segment = (line.substr(0,found+1));
-            // cout << "line: " << line << "found: " << found << endl;
-            line = line.substr (found+1);
-            // cout << "[" << segment << "]"<< endl;
-            if (segment.size() != 0) 
-                result.push_back (segment);
-            // cout << line << endl;
-        }else {
-            size_t found = line.find(separator);
-            if (found == string::npos){
-                string lastpart = trim (line);
-                if (lastpart.size()>0){
-                    result.push_back(lastpart);
-                }
-                break;
-            }
-            string segment = trim (line.substr(0, found));
-            // cout << "line: " << line << "found: " << found << endl;
-            line = line.substr (found+1);
-
-            // cout << "[" << segment << "]"<< endl;
-            if (segment.size() != 0) 
-                result.push_back (segment);
-
-            // cout << line << endl;
-        }
     }
-    return result;
+    return commands;
 }
+// vector<string> split (string line, string separator=" "){
+//     vector<string> result;
+//     while (line.size()){
+//         if (line.find("'")==0 && separator==" "){
+//             // cout << "Sicong Found" << endl;
+//             size_t found = (line.substr(1)).find("'")+1;
+//             if (found == string::npos){
+//                 cout << "last part" << endl;
+//                 string lastpart = line;
+//                 if (lastpart.size()>0){
+//                     result.push_back(lastpart);
+//                 }
+//                 break;
+//             }
+//             string segment = (line.substr(0,found+1));
+//             // cout << "line: " << line << "found: " << found << endl;
+//             line = line.substr (found+1);
+//             // cout << "[" << segment << "]"<< endl;
+//             if (segment.size() != 0) 
+//                 result.push_back (segment);
+//             // cout << line << endl;
+//         }else if (line.find("\"")==0 && separator==" "){
+//             // cout << "Sicong Found" << endl;
+//             size_t found = (line.substr(1)).find("\"")+1;
+//             if (found == string::npos){
+//                 cout << "last part" << endl;
+//                 string lastpart = line;
+//                 if (lastpart.size()>0){
+//                     result.push_back(lastpart);
+//                 }
+//                 break;
+//             }
+//             string segment = (line.substr(0,found+1));
+//             // cout << "line: " << line << "found: " << found << endl;
+//             line = line.substr (found+1);
+//             // cout << "[" << segment << "]"<< endl;
+//             if (segment.size() != 0) 
+//                 result.push_back (segment);
+//             // cout << line << endl;
+//         }else {
+//             size_t found = line.find(separator);
+//             if (found == string::npos){
+//                 string lastpart = trim (line);
+//                 if (lastpart.size()>0){
+//                     result.push_back(lastpart);
+//                 }
+//                 break;
+//             }
+//             string segment = trim (line.substr(0, found));
+//             // cout << "line: " << line << "found: " << found << endl;
+//             line = line.substr (found+1);
+
+//             // cout << "[" << segment << "]"<< endl;
+//             if (segment.size() != 0) 
+//                 result.push_back (segment);
+
+//             // cout << line << endl;
+//         }
+//     }
+//     return result;
+// }
 
