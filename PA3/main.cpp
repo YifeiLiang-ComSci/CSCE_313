@@ -97,12 +97,12 @@ void execute(string inputline){
                 int index = inputline.find("cd");
                 string path = inputline.substr(index + 2);
                 path = trim(path);
-                if(path=="-"){
+                if(path.compare("-") == 0){
                     path = "..";
                 } else {
                     cout<<"path not equal to -"<<endl;
                 }
-                if(path == ".."){
+                if(path.compare("..") == 0){
                     cout<<"run"<<endl;
                     char currentpath[512];
                     getcwd(currentpath,sizeof(currentpath));
