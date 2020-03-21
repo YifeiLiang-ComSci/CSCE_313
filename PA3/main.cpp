@@ -90,19 +90,18 @@ static void redirect(std::string &inputline) {
     execvp(command[0], command);
 }
 void execute(string inputline){
+    inputline = trim(inputline);
     char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
      if(redirectCheck(inputline)){
                  redirect(inputline);
-            }else if((string)command[0] == "cd"){
+            }else if((int)(inputline.find("cd")) == 0 ){
                 int index = inputline.find("cd");
                 string path = inputline.substr(index + 2);
                 path = trim(path);
-                if(path.compare("-") == 0){
+                if(((int)path.find("-")) == 0){
                     path = "..";
-                } else {
-                    cout<<"path not equal to -"<<endl;
-                }
-                if(path.compare("..") == 0){
+                } 
+                if(((int)path.find("..")) == 0){
                     cout<<"run"<<endl;
                     char currentpath[512];
                     getcwd(currentpath,sizeof(currentpath));
@@ -116,6 +115,19 @@ void execute(string inputline){
                 getcwd(cwd,sizeof(cwd));
                 cout << "in child"<<cwd<<endl;
                 return;
+        //          char cwd[256];
+        // if (argstrings[1] == "-"){
+        //     argstrings[1] = "..";
+        //     mi = true;
+        // }
+        // char** args = vec_to_char_array (argstrings);// convert vec<string> into an array of char*
+        // cout<<args[1]<<endl;
+        // chdir(args[1]);
+        // if (mi){
+        //     getcwd(cwd,sizeof(cwd));
+        //     cout << cwd << endl;
+        // }
+        // return;
 
             }
 
