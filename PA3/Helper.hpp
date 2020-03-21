@@ -9,36 +9,35 @@
 #ifndef Helper_hpp
 #define Helper_hpp
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <stdio.h>
 #include <vector>
+#include <algorithm> 
+#include <cctype>
+#include <locale>
 
 
 #endif /* Helper_hpp */
 using namespace std;
 
-struct Command{
-    string cmd;
-};
-const std::string WHITESPACE = " \n\r\t\f\v";
-//https://www.techiedelight.com/trim-string-cpp-remove-leading-trailing-spaces/
-std::string ltrim(const std::string& s)
-{
-    size_t start = s.find_first_not_of(WHITESPACE);
-    return (start == std::string::npos) ? "" : s.substr(start);
+#include <algorithm> 
+#include <functional> 
+#include <cctype>
+#include <locale>
+#include <regex>
+
+// trim from start
+std::string ltrim( std::string str ) {
+    return std::regex_replace( str, std::regex("^\\s+"), std::string("") );
 }
 
-std::string rtrim(const std::string& s)
-{
-    size_t end = s.find_last_not_of(WHITESPACE);
-    return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+std::string rtrim( std::string str ) {
+    return std::regex_replace( str, std::regex("\\s+$"), std::string("") );
 }
 
-std::string trim(const std::string& s)
-{
-    return rtrim(ltrim(s));
+std::string trim( std::string str ) {
+    return ltrim( rtrim( str ) );
 }
-
 char** parseInput(char *line,int size){
     char **command = (char**)malloc(size * sizeof(char *));
     char* parsed = strtok(line, " ");
@@ -61,10 +60,13 @@ vector<string> split(string str,string separator){
     vector<string> commands;
     curr = strtok(c_str, separator.c_str());
     while(curr!=NULL){
-        trim(curr);
+        
         commands.push_back(curr);
         curr=strtok(NULL,separator.c_str());
         
+    }
+    for(int i = 0 ; i < commands.size();i++){
+        commands[i] = trim(commands[i]);
     }
     return commands;
 }

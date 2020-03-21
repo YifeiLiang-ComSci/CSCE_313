@@ -91,9 +91,12 @@ static void redirect(std::string &inputline) {
 }
 void execute(string inputline){
     inputline = trim(inputline);
-    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+
+     string temp = inputline;
+    char** command = parseInput((char*)temp.c_str(), sizeof(inputline));
      if(redirectCheck(inputline)){
-                 redirect(inputline);
+        string temp1 = inputline;//don't want to mess with pointer
+                 redirect(temp1);
             }else if((int)(inputline.find("cd")) == 0 ){
                 int index = inputline.find("cd");
                 string path = inputline.substr(index + 2);
@@ -101,21 +104,13 @@ void execute(string inputline){
                 if(((int)path.find("-")) == 0){
                     path = "..";
                 } 
-                if(((int)path.find("..")) == 1){
-                    cout<<"run"<<endl;
-                    char currentpath[512];
+                        char currentpath[512];
                     getcwd(currentpath,sizeof(currentpath));
                     string curr(currentpath);
-                    size_t found = curr.find_last_of("/\\");
-                    path = curr.substr(0,found);
-                } else {
-                    cout <<"path find ..:"<<(int)path.at(0)<<endl;
-                }
-                cout<<"path"<<path<<endl;
-
-                chdir(path.c_str());
-                getcwd(cwd,sizeof(cwd));
-                cout << "in child"<<cwd<<endl;
+                    //size_t found = curr.find_last_of("/\\");
+                    //path = curr.substr(0,found);
+                    chdir(path.c_str());
+                    getcwd(cwd,sizeof(cwd));
                 return;
         //          char cwd[256];
         // if (argstrings[1] == "-"){
@@ -141,7 +136,8 @@ void execute(string inputline){
 
 
             else {
-                char** command = parseInput((char*)inputline.c_str(),inputline.length());
+                string temp1= inputline;
+                char** command = parseInput((char*)temp1.c_str(),inputline.length());
                 execvp(command[0],command);
              }
 
@@ -199,7 +195,7 @@ int main(){
     getcwd(cwd,sizeof(cwd));
     while(true){
         chdir(cwd);
-        cout<<"in paretnt cwd:"<<cwd<<endl;;
+
         getcwd(cwd,sizeof(cwd));
         cout << cwd<<"-";
     	  int stdin = dup(0);
@@ -213,6 +209,7 @@ int main(){
         if(inputline.find('&') != string::npos){
         	background = true;
         }
+
 
         if(inputline == string("exit")){
             cout <<"Bye!! end of shell"<<endl;
@@ -285,7 +282,7 @@ int main(){
                     close(fd[1]);
                 }
                 close(fd[0]);
-              
+
                 execute(process[i]);
 
             } else {
