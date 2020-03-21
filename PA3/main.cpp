@@ -108,6 +108,8 @@ void execute(string inputline){
                     string curr(currentpath);
                     size_t found = curr.find_last_of("/\\");
                     path = curr.substr(0,found);
+                } else {
+                    cout <<"path find ..:"<<(int)path.find("..")<<endl;
                 }
                 cout<<"path"<<path<<endl;
 
