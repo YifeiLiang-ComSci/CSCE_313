@@ -101,7 +101,7 @@ void execute(string inputline){
                 if(((int)path.find("-")) == 0){
                     path = "..";
                 } 
-                if(((int)path.find("..")) == 0){
+                if(((int)path.find("..")) == 1){
                     cout<<"run"<<endl;
                     char currentpath[512];
                     getcwd(currentpath,sizeof(currentpath));
