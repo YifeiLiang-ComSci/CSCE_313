@@ -104,7 +104,7 @@ void execute(string inputline){
         } else{
             index = (index1 < index2)? index1 : index2;
         }
-        inputline = inputline.substr(index);
+        inputline = inputline.substr(index+1);
         inputline = inputline.substr(0,inputline.length()-1);
         inputline = trim(inputline);
         inputline = "echo " + inputline; 
