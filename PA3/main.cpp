@@ -249,7 +249,7 @@ int main(){
         getline(cin,inputline);
         if(inputline.find('&') != string::npos){
         	background = true;
-            inputline = inputline.substr(0,inputline.find("&"))；
+            inputline = inputline.substr(0,inputline.find("&"));
         }
 
 
