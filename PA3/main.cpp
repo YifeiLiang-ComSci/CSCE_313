@@ -1,15 +1,31 @@
 #include "Helper.hpp"
-
+#include <chrono>
+#include <ctime>
 using namespace std;
 char cwd[1024];
 vector<long long int>backgrounds;
 
 
 static void prompt() {
+    //stackoverflow
+    char text[255];
+    FILE *name;
+    name = popen("whoami", "r");
+    fgets(text, sizeof(text), name);
+   // cout << "Name is : " << text;
+    pclose(name);
+   // cout << endl;
+    auto start = chrono::system_clock::now();
+    auto end = chrono::system_clock::now();
+    chrono::duration<double> elapsed_seconds = end-start;
+    time_t end_time = std::chrono::system_clock::to_time_t(end);
+
     chdir(cwd);
     
     getcwd(cwd,sizeof(cwd));
-    cout << cwd<<"-";
+
+    cout << cwd<<"-"<<ctime(&end_time)<<"-"<<name<<"-";
+
 }
 void execute(string inputline){
     if(redirectCheck(inputline)){
