@@ -242,8 +242,8 @@ int main(){
     
     while(true){
         for(int i = 0; i < backgrounds.size();i++){
-            int* status;
-            waitpid(backgrounds[i],status, WNOHANG);
+            int status;
+            waitpid(backgrounds[i],&status, WNOHANG);
             if (WIFEXITED(status)){
                 backgrounds.erase(backgrounds.begin()+i);
             }
