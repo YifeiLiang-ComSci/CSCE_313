@@ -70,3 +70,134 @@ vector<string> split(string str,string separator){
     }
     return commands;
 }
+static string redirect(std::string &inputline) {
+    int temp1 = (int)inputline.find("<");
+    int temp2 = (int)inputline.find(">");
+    int min;
+    if(temp1 == -1){
+        min = temp2;
+    } else if(temp2 == -1){
+        min = temp1;
+    } else {
+        min = (temp1 < temp2) ? temp1:temp2;
+    }
+
+
+    if(inputline.find("<") != string::npos){
+        int index = (int)inputline.find("<");
+        string filename = inputline.substr(index + 1,inputline.length() - index);
+        
+        // cout<<"length"<<length<<endl;
+        filename = trim(filename);
+        if(filename.find(" ")!=string::npos){
+            filename = filename.substr(0, filename.find(" "));
+        }
+        
+        int fd = open(filename.c_str(),O_RDONLY,S_IRUSR);
+
+        dup2(fd,0);
+        close(fd);
+        inputline = inputline.substr(0,index);
+        return inputline;
+
+        
+    }
+    if(inputline.find(">")!=string::npos){
+
+        int index = (int)inputline.find(">");
+        //                    int index1 = (int) inputline.find(" ", index + 1);
+        //                    int length = index1 - index + 1;
+        string filename = inputline.substr(index + 1,inputline.length() - index);
+        filename = trim(filename);
+        if(filename.find(" ")!=string::npos){
+            filename = filename.substr(0, filename.find(" "));
+        }
+        int fd = open(filename.c_str(),O_CREAT|O_WRONLY|O_TRUNC,S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+
+
+        dup2(fd,1);
+        close(fd);
+
+    } 
+
+    inputline = inputline.substr(0,min);
+    inputline = trim(inputline);
+    return inputline;
+
+}
+void execute(string inputline){
+    if(redirectCheck(inputline)){
+       // string temp1 = inputline;//don't want to mess with pointer
+       inputline = redirect(inputline);
+   }
+
+
+   inputline = trim(inputline);
+
+
+   if((int)inputline.find("awk") == 0){
+    int index1 = inputline.find("\"");
+    int index2 = inputline.find("\'");
+    int index = (index1 < index2)? index1 : index2;
+    if(index1 == -1){
+        index = index2;
+    } else if(index2 == -1){
+        index = index1;
+    } else{
+        index = (index1 < index2)? index1 : index2;
+    }
+    inputline = inputline.substr(index+1);
+    inputline = inputline.substr(0,inputline.length()-1);
+    inputline = trim(inputline);
+    inputline = "awk " + inputline; 
+
+    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    execvp(command[0],command);
+} else if(int(inputline.find("echo") == 0)){
+    int index1 = inputline.find("\"");
+    int index2 = inputline.find("\'");
+    int index = (index1 < index2)? index1 : index2;
+    if(index1 == -1){
+        index = index2;
+    } else if(index2 == -1){
+        index = index1;
+    } else{
+        index = (index1 < index2)? index1 : index2;
+    }
+    inputline = inputline.substr(index+1);
+    inputline = inputline.substr(0,inputline.length()-1);
+    inputline = trim(inputline);
+    inputline = "echo " + inputline; 
+
+    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    execvp(command[0],command);
+} else if((int)(inputline.find("cd")) == 0 ){
+    int index = inputline.find("cd");
+    string path = inputline.substr(index + 2);
+    path = trim(path);
+    if(((int)path.find("-")) == 0){
+        path = "..";
+    } 
+    char currentpath[512];
+    getcwd(currentpath,sizeof(currentpath));
+    string curr(currentpath);
+    chdir(path.c_str());
+    getcwd(cwd,sizeof(cwd));
+    return;
+}
+
+
+
+
+
+
+
+
+else {
+    string temp1= inputline;
+    char** command = parseInput((char*)temp1.c_str(),inputline.length());
+    execvp(command[0],command);
+}
+
+
+}
