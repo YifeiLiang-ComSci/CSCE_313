@@ -93,12 +93,19 @@ static string redirect(std::string &inputline) {
     //execvp(command[0], command);
 }
 void execute(string inputline){
-    inputline = trim(inputline);
-
-    if(redirectCheck(inputline)){
+        if(redirectCheck(inputline)){
        // string temp1 = inputline;//don't want to mess with pointer
                  inputline = redirect(inputline);
             }
+    if(inputline=="jobs"){
+        for(int i = 0; i < backgrounds.size();i++){
+            cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
+        }
+        return;
+    }
+    inputline = trim(inputline);
+
+
     if((int)inputline.find("awk") == 0){
         int index1 = inputline.find("\"");
         int index2 = inputline.find("\'");
