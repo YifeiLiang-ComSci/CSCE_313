@@ -3,6 +3,7 @@
 #include <ctime>
 using namespace std;
 char cwd[1024];
+char pwd[1024];
 vector<long long int>backgrounds;
 
 
@@ -82,11 +83,8 @@ void execute(string inputline){
     string path = inputline.substr(index + 2);
     path = trim(path);
     if(((int)path.find("-")) == 0){
-        path = "..";
+        path = pwd;
     }
-    char currentpath[512];
-    getcwd(currentpath,sizeof(currentpath));
-    string curr(currentpath);
     chdir(path.c_str());
     getcwd(cwd,sizeof(cwd));
     return;
@@ -110,6 +108,7 @@ else {
 
 int main(){
     getcwd(cwd,sizeof(cwd));
+    strncpy(pwd,cwd,sizeof(cwd));
     
     while(true){
         for(int i = 0; i < backgrounds.size();i++){
@@ -117,7 +116,7 @@ int main(){
             waitpid(backgrounds[i],&status, WNOHANG);
             if (WIFEXITED(status)){
                 backgrounds.erase(backgrounds.begin()+i);
-                cout<<"background erased"<<endl;
+
             }
         }
         prompt();
@@ -131,7 +130,7 @@ int main(){
         getline(cin,inputline);
         if(inputline.find('&') != string::npos){
             background = true;
-            cout<<"background: is true"<<endl;
+
             inputline = inputline.substr(0,inputline.find("&"));
         }
 
@@ -150,14 +149,12 @@ int main(){
         }
 
         if((int)inputline.find("jobs") == 0){
-            cout<<"vector size: "<<backgrounds.size()<<endl;
+
             for(int i = 0; i < backgrounds.size();i++){
                 cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
             }
             continue;
-        } else {
-            cout<<"input is not job"<<inputline<<endl;
-        }
+        } 
         for(int i = 0; i < process.size(); i++){
             int fd[2];
             pipe(fd);
