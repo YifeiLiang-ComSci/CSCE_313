@@ -12,8 +12,10 @@ static void prompt() {
     FILE *name;
     name = popen("whoami", "r");
     fgets(text, sizeof(text), name);
-   // cout << "Name is : " << text;
-    pclose(name);
+
+    string namestr(text);
+    namestr.erase(std::remove(namestr.begin(), namestr.end(), '\n'),
+            namestr.end());
    // cout << endl;
     auto start = chrono::system_clock::now();
     auto end = chrono::system_clock::now();
@@ -21,11 +23,13 @@ static void prompt() {
     time_t end_time = std::chrono::system_clock::to_time_t(end);
 
     chdir(cwd);
-    
+    string time = ctime(&end_time);
+    time.erase(std::remove(time.begin(), time.end(), '\n'),
+            time.end());
     getcwd(cwd,sizeof(cwd));
 
-    cout << cwd<<"-"<<ctime(&end_time)<<"-"<<name<<"-";
-
+    cout << cwd<<"-"<<time<<"-"<<namestr<<"-";
+pclose(name);
 }
 void execute(string inputline){
     if(redirectCheck(inputline)){
