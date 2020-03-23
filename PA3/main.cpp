@@ -251,7 +251,7 @@ int main(){
         cout << cwd<<"-";
     	  int stdin = dup(0);
         	int stdout = dup(1);
-    	vector<int>backgrounds;
+
 
         cout << "My Shell$ ";
         string inputline;
