@@ -337,6 +337,8 @@ int main(){
             cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
         }
         continue;
+    } else {
+        cout<<"input is not job"<<inputline<<endl;
     }
         for(int i = 0; i < process.size(); i++){
             int fd[2];
