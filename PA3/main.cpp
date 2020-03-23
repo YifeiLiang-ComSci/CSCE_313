@@ -248,6 +248,7 @@ int main(){
             waitpid(backgrounds[i],&status, WNOHANG);
             if (WIFEXITED(status)){
                 backgrounds.erase(backgrounds.begin()+i);
+                cout<<"background erased"<<endl;
             }
         }
         chdir(cwd);
