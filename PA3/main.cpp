@@ -98,9 +98,9 @@ void execute(string inputline){
         int index1 = inputline.find("\"");
         int index2 = inputline.find("\'");
         int index = (index1 < index2)? index1 : index2;
-        if(index1 = -1){
+        if(index1 == -1){
             index = index2;
-        } else if(index2 = -1){
+        } else if(index2 == -1){
             index = index1;
         } else{
             index = (index1 < index2)? index1 : index2;
