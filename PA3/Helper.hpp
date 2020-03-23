@@ -1,32 +1,21 @@
-//
-//  Helper.hpp
-//  Shell
-//
-//  Created by Yifei Liang on 3/13/20.
-//  Copyright © 2020 Yifei Liang. All rights reserved.
-//
-
-#ifndef Helper_hpp
-#define Helper_hpp
-#include <stdlib.h>
+#include <iostream>
 #include <string>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#include <fcntl.h>
+#include <sys/stat.h>
 #include <vector>
-#include <algorithm> 
-#include <cctype>
-#include <locale>
-
-
-#endif /* Helper_hpp */
-using namespace std;
-
-#include <algorithm> 
-#include <functional> 
-#include <cctype>
-#include <locale>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <dirent.h>
+#include <algorithm>
 #include <regex>
 
-// trim from start
+using namespace std;
+
+// trim from start(From stack overflow)
 std::string ltrim( std::string str ) {
     return std::regex_replace( str, std::regex("^\\s+"), std::string("") );
 }
@@ -118,86 +107,10 @@ static string redirect(std::string &inputline) {
         dup2(fd,1);
         close(fd);
 
-    } 
+    }
 
     inputline = inputline.substr(0,min);
     inputline = trim(inputline);
     return inputline;
-
-}
-void execute(string inputline){
-    if(redirectCheck(inputline)){
-       // string temp1 = inputline;//don't want to mess with pointer
-       inputline = redirect(inputline);
-   }
-
-
-   inputline = trim(inputline);
-
-
-   if((int)inputline.find("awk") == 0){
-    int index1 = inputline.find("\"");
-    int index2 = inputline.find("\'");
-    int index = (index1 < index2)? index1 : index2;
-    if(index1 == -1){
-        index = index2;
-    } else if(index2 == -1){
-        index = index1;
-    } else{
-        index = (index1 < index2)? index1 : index2;
-    }
-    inputline = inputline.substr(index+1);
-    inputline = inputline.substr(0,inputline.length()-1);
-    inputline = trim(inputline);
-    inputline = "awk " + inputline; 
-
-    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
-    execvp(command[0],command);
-} else if(int(inputline.find("echo") == 0)){
-    int index1 = inputline.find("\"");
-    int index2 = inputline.find("\'");
-    int index = (index1 < index2)? index1 : index2;
-    if(index1 == -1){
-        index = index2;
-    } else if(index2 == -1){
-        index = index1;
-    } else{
-        index = (index1 < index2)? index1 : index2;
-    }
-    inputline = inputline.substr(index+1);
-    inputline = inputline.substr(0,inputline.length()-1);
-    inputline = trim(inputline);
-    inputline = "echo " + inputline; 
-
-    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
-    execvp(command[0],command);
-} else if((int)(inputline.find("cd")) == 0 ){
-    int index = inputline.find("cd");
-    string path = inputline.substr(index + 2);
-    path = trim(path);
-    if(((int)path.find("-")) == 0){
-        path = "..";
-    } 
-    char currentpath[512];
-    getcwd(currentpath,sizeof(currentpath));
-    string curr(currentpath);
-    chdir(path.c_str());
-    getcwd(cwd,sizeof(cwd));
-    return;
-}
-
-
-
-
-
-
-
-
-else {
-    string temp1= inputline;
-    char** command = parseInput((char*)temp1.c_str(),inputline.length());
-    execvp(command[0],command);
-}
-
 
 }

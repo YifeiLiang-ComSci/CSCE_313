@@ -1,21 +1,92 @@
-#include <iostream>
-#include <string>
-#include <stdio.h>
-#include <stdlib.h> 
-#include <unistd.h>
 #include "Helper.hpp"
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <vector>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <dirent.h>
-#include <algorithm>
 
 using namespace std;
 char cwd[1024];
 vector<long long int>backgrounds;
 
+
+static void prompt() {
+    chdir(cwd);
+    
+    getcwd(cwd,sizeof(cwd));
+    cout << cwd<<"-";
+}
+void execute(string inputline){
+    if(redirectCheck(inputline)){
+       // string temp1 = inputline;//don't want to mess with pointer
+       inputline = redirect(inputline);
+   }
+
+
+   inputline = trim(inputline);
+
+
+   if((int)inputline.find("awk") == 0){
+    int index1 = inputline.find("\"");
+    int index2 = inputline.find("\'");
+    int index = (index1 < index2)? index1 : index2;
+    if(index1 == -1){
+        index = index2;
+    } else if(index2 == -1){
+        index = index1;
+    } else{
+        index = (index1 < index2)? index1 : index2;
+    }
+    inputline = inputline.substr(index+1);
+    inputline = inputline.substr(0,inputline.length()-1);
+    inputline = trim(inputline);
+    inputline = "awk " + inputline;
+
+    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    execvp(command[0],command);
+} else if(int(inputline.find("echo") == 0)){
+    int index1 = inputline.find("\"");
+    int index2 = inputline.find("\'");
+    int index = (index1 < index2)? index1 : index2;
+    if(index1 == -1){
+        index = index2;
+    } else if(index2 == -1){
+        index = index1;
+    } else{
+        index = (index1 < index2)? index1 : index2;
+    }
+    inputline = inputline.substr(index+1);
+    inputline = inputline.substr(0,inputline.length()-1);
+    inputline = trim(inputline);
+    inputline = "echo " + inputline;
+
+    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    execvp(command[0],command);
+} else if((int)(inputline.find("cd")) == 0 ){
+    int index = inputline.find("cd");
+    string path = inputline.substr(index + 2);
+    path = trim(path);
+    if(((int)path.find("-")) == 0){
+        path = "..";
+    }
+    char currentpath[512];
+    getcwd(currentpath,sizeof(currentpath));
+    string curr(currentpath);
+    chdir(path.c_str());
+    getcwd(cwd,sizeof(cwd));
+    return;
+}
+
+
+
+
+
+
+
+
+else {
+    string temp1= inputline;
+    char** command = parseInput((char*)temp1.c_str(),inputline.length());
+    execvp(command[0],command);
+}
+
+
+}
 
 int main(){
     getcwd(cwd,sizeof(cwd));
@@ -29,10 +100,7 @@ int main(){
                 cout<<"background erased"<<endl;
             }
         }
-        chdir(cwd);
-
-        getcwd(cwd,sizeof(cwd));
-        cout << cwd<<"-";
+        prompt();
         int stdin = dup(0);
         int stdout = dup(1);
 
@@ -42,7 +110,7 @@ int main(){
         bool background = false;
         getline(cin,inputline);
         if(inputline.find('&') != string::npos){
-        	background = true;
+            background = true;
             cout<<"background: is true"<<endl;
             inputline = inputline.substr(0,inputline.find("&"));
         }
@@ -89,7 +157,7 @@ int main(){
 
                 }
                 else if(i == process.size() - 1){
-                   waitpid(pid,0,0); 
+                   waitpid(pid,0,0);
 
                }
                dup2(fd[0],0);
@@ -102,7 +170,7 @@ int main(){
        dup2(stdout,1);
        close(stdin);
        close(stdout);
-   }   
+   }
 
 
 }
