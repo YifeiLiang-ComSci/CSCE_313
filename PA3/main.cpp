@@ -9,7 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <dirent.h>
-
+#include <algorithm>
 
 using namespace std;
 char cwd[1024];
@@ -92,8 +92,11 @@ static void redirect(std::string &inputline) {
 void execute(string inputline){
     inputline = trim(inputline);
 
-   
-    if(int(inputline.find("echo") == 0)){
+    if((int)inputline.find("awk") == 0){
+        replace(inputline.begin(),inputline.end(),'\'','\'');
+         char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+        execvp(command[0],command);
+    } else if(int(inputline.find("echo") == 0)){
         int index1 = inputline.find("\"");
         int index2 = inputline.find("\'");
         int index = (index1 < index2)? index1 : index2;
