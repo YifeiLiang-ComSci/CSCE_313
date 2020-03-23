@@ -95,7 +95,9 @@ void execute(string inputline){
      string temp = inputline;
     char** command = parseInput((char*)temp.c_str(), sizeof(inputline));
     if(int(inputline.find("echo") == 0)){
-        int index = inputline.find("\"");
+        int index1 = inputline.find("\"");
+        int index2 = inputline.find("\'");
+        int index = (index1 < index2)? index1 : index2;
         inputline = inputline.substr(index);
         inputline = inputline.substr(0,inputline.length()-1);
         char** args = parseInput((char*)inputline.c_str(), sizeof(inputline));
