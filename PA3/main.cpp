@@ -94,6 +94,7 @@ void execute(string inputline){
 
     if((int)inputline.find("awk") == 0){
         replace(inputline.begin(),inputline.end(),'\'','\'');
+        cout <<inputline<<endl;
          char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
         execvp(command[0],command);
     } else if(int(inputline.find("echo") == 0)){
