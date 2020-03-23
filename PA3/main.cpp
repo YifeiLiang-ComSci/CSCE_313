@@ -13,6 +13,7 @@
 
 using namespace std;
 char cwd[1024];
+vector<long long int>backgrounds;
 char** vec_to_char_array (vector<string> parts){
     char ** result = new char * [parts.size() + 1]; // add 1 for the NULL at the end
     for (int i=0; i<parts.size(); i++){
@@ -230,10 +231,14 @@ void execute(string inputline){
 }
 int main(){
     getcwd(cwd,sizeof(cwd));
-    vector<long long int>backgrounds;
+    
     while(true){
         for(int i = 0; i < backgrounds.size();i++){
-            waitpid(backgrounds[i],0, WNOHANG);
+            int* status;
+            waitpid(backgrounds[i],status, WNOHANG);
+            if (WIFEXITED(status)){
+                backgrounds.erase(backgrounds.begin()+i);
+            }
         }
         chdir(cwd);
 
