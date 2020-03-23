@@ -95,7 +95,11 @@ void execute(string inputline){
      string temp = inputline;
     char** command = parseInput((char*)temp.c_str(), sizeof(inputline));
     if(int(inputline.find("echo") == 0)){
-        execvp(command[0],command);
+        int index = inputline.find("\"");
+        inputline = inputline.substr(index);
+        inputline = inputline.substr(0,inputline.length()-1);
+        char** args = parseInput((char*)inputline.c_str(), sizeof(inputline));
+        execvp(command[0],args);
     } else if(redirectCheck(inputline)){
         string temp1 = inputline;//don't want to mess with pointer
                  redirect(temp1);
