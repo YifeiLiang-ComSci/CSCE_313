@@ -262,6 +262,7 @@ int main(){
         getline(cin,inputline);
         if(inputline.find('&') != string::npos){
         	background = true;
+            cout<<"background: is true"<<endl;
             inputline = inputline.substr(0,inputline.find("&"));
         }
 
@@ -352,6 +353,7 @@ int main(){
                 }
                 else if(i == process.size() - 1){
                      waitpid(pid,0,0); 
+                     cout<<"pid pushed"<<endl;
                  }
                 dup2(fd[0],0);
                 close(fd[0]);
