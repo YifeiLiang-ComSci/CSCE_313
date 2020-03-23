@@ -83,6 +83,7 @@ void execute(string inputline){
     string path = inputline.substr(index + 2);
     path = trim(path);
     if(((int)path.find("-")) == 0){
+        cout<<pwd<<endl;
         path = pwd;
     }
     chdir(path.c_str());
