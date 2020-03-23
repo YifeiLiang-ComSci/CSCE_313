@@ -93,9 +93,22 @@ void execute(string inputline){
     inputline = trim(inputline);
 
     if((int)inputline.find("awk") == 0){
-        replace(inputline.begin(),inputline.end(),'\'','\'');
-        cout <<inputline<<endl;
-         char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+        int index1 = inputline.find("\"");
+        int index2 = inputline.find("\'");
+        int index = (index1 < index2)? index1 : index2;
+        if(index1 == -1){
+            index = index2;
+        } else if(index2 == -1){
+            index = index1;
+        } else{
+            index = (index1 < index2)? index1 : index2;
+        }
+        inputline = inputline.substr(index+1);
+        inputline = inputline.substr(0,inputline.length()-1);
+        inputline = trim(inputline);
+        inputline = "awk " + inputline; 
+
+        char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
         execvp(command[0],command);
     } else if(int(inputline.find("echo") == 0)){
         int index1 = inputline.find("\"");
