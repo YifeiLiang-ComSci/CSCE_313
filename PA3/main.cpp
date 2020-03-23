@@ -329,10 +329,10 @@ int main(){
  //        }
  //        dup2(stdin,0);
  //        dup2(stdout,1);
- //        close(stdin);
+ //        close(stdin);ss
  //        close(stdout);
     if((int)inputline.find("jobs") == 0){
-        
+        cout<<"vector size: "<<backgrounds.size()<<endl;
         for(int i = 0; i < backgrounds.size();i++){
             cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
         }
