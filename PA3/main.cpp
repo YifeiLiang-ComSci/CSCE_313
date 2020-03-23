@@ -24,7 +24,7 @@ char** vec_to_char_array (vector<string> parts){
     return result;
 }
 
-static void redirect(std::string &inputline) {
+static string redirect(std::string &inputline) {
 	int temp1 = (int)inputline.find("<");
 	int temp2 = (int)inputline.find(">");
 	int min;
@@ -53,7 +53,9 @@ static void redirect(std::string &inputline) {
 
         dup2(fd,0);
         close(fd);
-        // inputline = inputline.substr(0,index);
+         inputline = inputline.substr(0,index);
+        return inputline;
+        
         // char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
         
         // execvp(command[0], command);
@@ -85,13 +87,17 @@ static void redirect(std::string &inputline) {
 
    	inputline = inputline.substr(0,min);
    	inputline = trim(inputline);
-
-    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
-    execvp(command[0], command);
+    return inputline;
+    //char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    //execvp(command[0], command);
 }
 void execute(string inputline){
     inputline = trim(inputline);
 
+    if(redirectCheck(inputline)){
+       // string temp1 = inputline;//don't want to mess with pointer
+                 inputline = redirect(inputline);
+            }
     if((int)inputline.find("awk") == 0){
         int index1 = inputline.find("\"");
         int index2 = inputline.find("\'");
@@ -128,10 +134,7 @@ void execute(string inputline){
 
         char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
         execvp(command[0],command);
-    } else if(redirectCheck(inputline)){
-        string temp1 = inputline;//don't want to mess with pointer
-                 redirect(temp1);
-            }else if((int)(inputline.find("cd")) == 0 ){
+    } else if((int)(inputline.find("cd")) == 0 ){
                 int index = inputline.find("cd");
                 string path = inputline.substr(index + 2);
                 path = trim(path);
