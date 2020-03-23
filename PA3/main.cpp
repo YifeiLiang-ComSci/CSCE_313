@@ -217,8 +217,14 @@ int main(){
             cout <<"Bye!! end of shell"<<endl;
             break;
         }
-         vector<string> process = split(inputline,"|");
-        int numProcess = (int)process.size();
+        vector<string> process;
+        if(((int)inputline.find("echo")) == 0){
+            process.push_back(inputline);
+        }else{
+        process = split(inputline,"|");
+        
+
+    }
      //   if(numProcess == 1){
     //     int pid = fork();
     //     if(pid == 0){
