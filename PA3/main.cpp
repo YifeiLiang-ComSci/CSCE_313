@@ -230,7 +230,11 @@ void execute(string inputline){
 }
 int main(){
     getcwd(cwd,sizeof(cwd));
+    vector<long long int>backgrounds;
     while(true){
+        for(int i = 0; i < backgrounds.size();i++){
+            waitpid(backgrounds[i],0, WNOHANG);
+        }
         chdir(cwd);
 
         getcwd(cwd,sizeof(cwd));
@@ -329,8 +333,12 @@ int main(){
                 execute(process[i]);
 
             } else {
-                if(i == process.size() - 1)
+                if(background && i == process.size() - 1){
+                    backgrounds.push_back(pid);
+                }
+                else if(i == process.size() - 1){
                      waitpid(pid,0,0); 
+                 }
                 dup2(fd[0],0);
                 close(fd[0]);
                 close(fd[1]);
