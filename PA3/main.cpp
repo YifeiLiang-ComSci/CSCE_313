@@ -98,7 +98,7 @@ void execute(string inputline){
        // string temp1 = inputline;//don't want to mess with pointer
                  inputline = redirect(inputline);
             }
-    if(inputline=="jobs"){
+    if((int)inputline.find("jobs") == 0){
         for(int i = 0; i < backgrounds.size();i++){
             cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
         }
