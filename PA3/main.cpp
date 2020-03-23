@@ -98,14 +98,8 @@ void execute(string inputline){
        // string temp1 = inputline;//don't want to mess with pointer
                  inputline = redirect(inputline);
             }
-    if((int)inputline.find("jobs") == 0){
-        for(int i = 0; i < backgrounds.size();i++){
-            cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
-        }
-        return;
-    } else {
-        cout<<"inputline is not jobs: "<<inputline<<endl;
-    }
+
+
     inputline = trim(inputline);
 
 
@@ -337,6 +331,13 @@ int main(){
  //        dup2(stdout,1);
  //        close(stdin);
  //        close(stdout);
+    if((int)inputline.find("jobs") == 0){
+        
+        for(int i = 0; i < backgrounds.size();i++){
+            cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
+        }
+        continue;
+    }
         for(int i = 0; i < process.size(); i++){
             int fd[2];
             pipe(fd);
