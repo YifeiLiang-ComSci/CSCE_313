@@ -92,8 +92,7 @@ static void redirect(std::string &inputline) {
 void execute(string inputline){
     inputline = trim(inputline);
 
-     string temp = inputline;
-    char** command = parseInput((char*)temp.c_str(), sizeof(inputline));
+   
     if(int(inputline.find("echo") == 0)){
         int index1 = inputline.find("\"");
         int index2 = inputline.find("\'");
@@ -107,8 +106,11 @@ void execute(string inputline){
         }
         inputline = inputline.substr(index);
         inputline = inputline.substr(0,inputline.length()-1);
-        char** args = parseInput((char*)inputline.c_str(), sizeof(inputline));
-        execvp(command[0],args);
+        inputline = trim(inputline);
+        inputline = "echo " + inputline; 
+
+        char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+        execvp(command[0],command);
     } else if(redirectCheck(inputline)){
         string temp1 = inputline;//don't want to mess with pointer
                  redirect(temp1);
