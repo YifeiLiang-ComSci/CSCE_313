@@ -103,6 +103,8 @@ void execute(string inputline){
             cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
         }
         return;
+    } else {
+        cout<<"inputline is not jobs: "<<inputline<<endl;
     }
     inputline = trim(inputline);
 
@@ -350,10 +352,11 @@ int main(){
             } else {
                 if(background && i == process.size() - 1){
                     backgrounds.push_back(pid);
+                    cout<<"pid pushed"<<endl;
                 }
                 else if(i == process.size() - 1){
                      waitpid(pid,0,0); 
-                     cout<<"pid pushed"<<endl;
+                     
                  }
                 dup2(fd[0],0);
                 close(fd[0]);
