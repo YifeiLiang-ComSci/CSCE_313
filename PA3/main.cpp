@@ -357,6 +357,7 @@ int main(){
                 if(background && i == process.size() - 1){
                     backgrounds.push_back(pid);
                     cout<<"pid pushed"<<endl;
+                    cout<<"after push: "<<backgrounds.size()<<endl;
                 }
                 else if(i == process.size() - 1){
                      waitpid(pid,0,0); 
