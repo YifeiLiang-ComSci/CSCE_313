@@ -5,6 +5,9 @@ using namespace std;
 char cwd[1024];
 char pwd[1024];
 vector<long long int>backgrounds;
+vector<string> status;
+vector<string> line;
+
 
 
 static void prompt() {
@@ -113,10 +116,10 @@ int main(){
     
     while(true){
         for(int i = 0; i < backgrounds.size();i++){
-            int status;
-            waitpid(backgrounds[i],&status, WNOHANG);
-            if (WIFEXITED(status)){
-                backgrounds.erase(backgrounds.begin()+i);
+            int state;
+            waitpid(backgrounds[i],&state, WNOHANG);
+            if (WIFEXITED(state)){
+                status[i] = "Done";
 
             }
         }
@@ -135,7 +138,6 @@ int main(){
             inputline = inputline.substr(0,inputline.find("&"));
         }
 
-
         if(inputline == string("exit")){
             cout <<"Bye!! end of shell"<<endl;
             break;
@@ -150,10 +152,21 @@ int main(){
         }
 
         if((int)inputline.find("jobs") == 0){
-
-            for(int i = 0; i < backgrounds.size();i++){
-                cout<<"job "<<i+1<<": "<<backgrounds[i]<<endl;
-            }
+            bool run = false;
+            for(int j = 0; j < process.size();j++){
+                        if(status[j] != "Collected"){
+                            run = true;
+                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<inputline<<endl;
+                            if(status[j] == "Done"){
+                                status[j] = "Collected";
+                            }
+                        }
+                    }
+                    if(run == false){
+                        backgrounds.clear();
+                        status.clear();
+                        line.clear();
+                    }
             continue;
         } 
         for(int i = 0; i < process.size(); i++){
@@ -172,6 +185,16 @@ int main(){
             } else {
                 if(background && i == process.size() - 1){
                     backgrounds.push_back(pid);
+                    status.push_back("Running");
+                    line.push_back(inputline);
+                    for(int j = 0; j < process.size();j++){
+                        if(status[j] != "Collected"){
+                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<inputline<<endl;
+                            if(status[j] == "Done"){
+                                status[j] = "Collected";
+                            }
+                        }
+                    }
 
                 }
                 else if(i == process.size() - 1){
