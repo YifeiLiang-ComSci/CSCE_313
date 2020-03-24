@@ -123,7 +123,11 @@ int main(){
             int state;
             waitpid(backgrounds[i],&state, WNOHANG);
             if (WIFEXITED(state)){
+                if(status[i].find("Done") == 0){
+
+                }else{
                 status[i] = "Done";
+            }
 
             }
         }
