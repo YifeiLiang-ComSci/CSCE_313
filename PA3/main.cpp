@@ -256,8 +256,6 @@ int main(){
                             cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[j]<<endl;
                             if(((int)(status[j].find("Done"))) == 0){
                                 status[j] = "Collected";
-                            } else{
-                                cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<"is not done"<<endl;
                             }
                         }
                     }
