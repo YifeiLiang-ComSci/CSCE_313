@@ -113,6 +113,7 @@ else {
 int main(){
     getcwd(cwd,sizeof(cwd));
     strncpy(pwd,cwd,sizeof(cwd));
+    cout<<"size of status:"<<status.size()<<endl;
     for(int i = 0; i < status.size();i++){
         cout<<status[i]<<endl;
     }
