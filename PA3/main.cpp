@@ -188,7 +188,7 @@ void execute(string inputline){
 
 else {
     string temp1= inputline;
-    cout <<temp1<<endl;
+
     char** command = parseInput((char*)temp1.c_str(),inputline.length());
 
     execvp(command[0],command);
