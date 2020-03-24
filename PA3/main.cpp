@@ -164,7 +164,9 @@ int main(){
             bool run = false;
             for(int j = 0; j < backgrounds.size();j++){
                         if((int)(status[j].find("Collected")) !=0 ){
+                            if(status[j].find("Running")==0){
                             run = true;
+                        }
                             cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[j]<<endl;
                             if(((int)(status[j].find("Done"))) == 0){
                                 status[j] = "Collected";
