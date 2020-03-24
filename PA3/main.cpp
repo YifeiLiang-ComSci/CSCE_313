@@ -103,7 +103,9 @@ void execute(string inputline){
 
 else {
     string temp1= inputline;
+
     char** command = parseInput((char*)temp1.c_str(),inputline.length());
+    cout<<command[1]<<command[2]<<endl;
     execvp(command[0],command);
 }
 
@@ -127,7 +129,7 @@ int main(){
 
                 }else{
                     cout<<status[i]<<"to" <<" Done"<<endl;
-                status[i] = "Done";
+                    status[i] = "Done";
             }
 
             }
