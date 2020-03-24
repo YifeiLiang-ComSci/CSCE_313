@@ -113,7 +113,9 @@ else {
 int main(){
     getcwd(cwd,sizeof(cwd));
     strncpy(pwd,cwd,sizeof(cwd));
-    
+    for(int i = 0; i < status.size();i++){
+        cout<<status[i]<<endl;
+    }
     while(true){
         for(int i = 0; i < backgrounds.size();i++){
             int state;
