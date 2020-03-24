@@ -128,7 +128,6 @@ int main(){
                 if(status[i].find("Collected") == 0){
 
                 }else{
-                    cout<<status[i]<<"to" <<" Done"<<endl;
                     status[i] = "Done";
             }
 
@@ -207,6 +206,7 @@ int main(){
                         if((int)(status[j].find("Collected")) !=0 ){
                             cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[j]<<endl;
                             if(((int)(status[j].find("Done"))) == 0){
+
                                 status[j] = "Collected";
                             }
                         }
