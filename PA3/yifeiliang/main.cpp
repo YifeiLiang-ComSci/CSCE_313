@@ -37,8 +37,6 @@ static string redirect(std::string &inputline) {
 
         dup2(fd,0);
         close(fd);
-         inputline = inputline.substr(0,index);
-        return inputline;
         
         // char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
         
