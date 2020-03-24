@@ -36,14 +36,31 @@ static void prompt() {
 pclose(name);
 }
 void execute(string inputline){
-    if(redirectCheck(inputline)){
+if(int(inputline.find("echo") == 0)){
+    int index1 = inputline.find("\"");
+    int index2 = inputline.find("\'");
+    int index = (index1 < index2)? index1 : index2;
+    if(index1 == -1){
+        index = index2;
+    } else if(index2 == -1){
+        index = index1;
+    } else{
+        index = (index1 < index2)? index1 : index2;
+    }
+    inputline = inputline.substr(index+1);
+    inputline = inputline.substr(0,inputline.length()-1);
+    inputline = trim(inputline);
+    inputline = "echo " + inputline;
+
+    char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    execvp(command[0],command);
+}
+
+   inputline = trim(inputline);
+  if(redirectCheck(inputline)){
        // string temp1 = inputline;//don't want to mess with pointer
        inputline = redirect(inputline);
    }
-
-
-   inputline = trim(inputline);
-
 
    if((int)inputline.find("awk") == 0){
     int index1 = inputline.find("\"");
