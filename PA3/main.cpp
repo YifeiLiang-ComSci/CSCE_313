@@ -8,7 +8,61 @@ vector<long long int>backgrounds;
 vector<string> status;
 vector<string> line;
 
+static string redirect(std::string &inputline) {
+    int temp1 = (int)inputline.find("<");
+    int temp2 = (int)inputline.find(">");
+    int min;
+    if(temp1 == -1){
+        min = temp2;
+    } else if(temp2 == -1){
+        min = temp1;
+    } else {
+        min = (temp1 < temp2) ? temp1:temp2;
+    }
 
+
+    if(inputline.find("<") != string::npos){
+        int index = (int)inputline.find("<");
+        string filename = inputline.substr(index + 1,inputline.length() - index);
+        
+        // cout<<"length"<<length<<endl;
+        filename = trim(filename);
+        if(filename.find(" ")!=string::npos){
+            filename = filename.substr(0, filename.find(" "));
+        }
+        
+        int fd = open(filename.c_str(),O_RDONLY,S_IRUSR);
+
+        dup2(fd,0);
+        close(fd);
+        inputline = inputline.substr(0,index);
+        return inputline;
+
+        
+    }
+    if(inputline.find(">")!=string::npos){
+
+        int index = (int)inputline.find(">");
+        //                    int index1 = (int) inputline.find(" ", index + 1);
+        //                    int length = index1 - index + 1;
+        string filename = inputline.substr(index + 1,inputline.length() - index);
+        filename = trim(filename);
+        if(filename.find(" ")!=string::npos){
+            filename = filename.substr(0, filename.find(" "));
+        }
+        int fd = open(filename.c_str(),O_CREAT|O_WRONLY|O_TRUNC,S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+
+
+        dup2(fd,1);
+        close(fd);
+
+    }
+
+    inputline = inputline.substr(0,min);
+    inputline = trim(inputline);
+    return inputline;
+
+}
 
 static void prompt() {
     //stackoverflow
