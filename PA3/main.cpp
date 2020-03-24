@@ -156,7 +156,7 @@ int main(){
             for(int j = 0; j < process.size();j++){
                         if((int)(status[j].find("Collected")) !=0 ){
                             run = true;
-                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[i]<<endl;
+                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[j]<<endl;
                             if(((int)(status[j].find("Done"))) == 0){
                                 status[j] = "Collected";
                             }
@@ -190,7 +190,7 @@ int main(){
                     line.push_back(inputline);
                     for(int j = 0; j < process.size();j++){
                         if((int)(status[j].find("Collected")) !=0 ){
-                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[i]<<endl;
+                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[j]<<endl;
                             if(((int)(status[j].find("Done"))) == 0){
                                 status[j] = "Collected";
                             }
