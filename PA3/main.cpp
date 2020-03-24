@@ -202,7 +202,7 @@ int main(){
                     backgrounds.push_back(pid);
                     status.push_back("Running");
                     line.push_back(inputline);
-                    cout<<cout<<"["<<backgrounds.size()<<"]"<<" "<<pid<<endl;
+                    cout<<"["<<backgrounds.size()<<"]"<<" "<<pid<<endl;
 
                     for(int j = 0; j < backgrounds.size();j++){
                         if((int)(status[j].find("Collected")) !=0 ){
