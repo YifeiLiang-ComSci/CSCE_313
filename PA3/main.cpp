@@ -154,14 +154,15 @@ int main(){
         if((int)inputline.find("jobs") == 0){
             bool run = false;
             for(int j = 0; j < process.size();j++){
-                        if(status[j] != "Collected"){
+                        if((int)(status[j].find("Collected")) !=0 ){
                             run = true;
-                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[j]<<endl;
-                            if(status[j] == "Done"){
+                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[i]<<endl;
+                            if(((int)(status[j].find("Done"))) == 0){
                                 status[j] = "Collected";
                             }
                         }
                     }
+
                     if(run == false){
                         backgrounds.clear();
                         status.clear();
@@ -188,9 +189,9 @@ int main(){
                     status.push_back("Running");
                     line.push_back(inputline);
                     for(int j = 0; j < process.size();j++){
-                        if(status[j] != "Collected"){
+                        if((int)(status[j].find("Collected")) !=0 ){
                             cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[i]<<endl;
-                            if(status[j] == "Done"){
+                            if(((int)(status[j].find("Done"))) == 0){
                                 status[j] = "Collected";
                             }
                         }
