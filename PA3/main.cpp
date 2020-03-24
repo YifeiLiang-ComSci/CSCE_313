@@ -156,7 +156,7 @@ int main(){
             for(int j = 0; j < process.size();j++){
                         if(status[j] != "Collected"){
                             run = true;
-                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<inputline<<endl;
+                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[i]<<endl;
                             if(status[j] == "Done"){
                                 status[j] = "Collected";
                             }
@@ -189,7 +189,7 @@ int main(){
                     line.push_back(inputline);
                     for(int j = 0; j < process.size();j++){
                         if(status[j] != "Collected"){
-                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<inputline<<endl;
+                            cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[i]<<endl;
                             if(status[j] == "Done"){
                                 status[j] = "Collected";
                             }
