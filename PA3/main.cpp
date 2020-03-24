@@ -23,6 +23,8 @@ static string redirect(std::string &inputline) {
 
     if(inputline.find("<") != string::npos){
         int index = (int)inputline.find("<");
+        //                    int index1 = (int) inputline.find(" ", index + 1);
+        //                    int length = index1 - index + 1;
         string filename = inputline.substr(index + 1,inputline.length() - index);
         
         // cout<<"length"<<length<<endl;
@@ -35,13 +37,18 @@ static string redirect(std::string &inputline) {
 
         dup2(fd,0);
         close(fd);
-        inputline = inputline.substr(0,index);
+         inputline = inputline.substr(0,index);
         return inputline;
-
+        
+        // char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+        
+        // execvp(command[0], command);
+        
+        
         
     }
-    if(inputline.find(">")!=string::npos){
-
+     if(inputline.find(">")!=string::npos){
+        
         int index = (int)inputline.find(">");
         //                    int index1 = (int) inputline.find(" ", index + 1);
         //                    int length = index1 - index + 1;
@@ -56,12 +63,17 @@ static string redirect(std::string &inputline) {
         dup2(fd,1);
         close(fd);
 
-    }
+        //inputline = inputline.substr(0,index);
+        // char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+        // execvp(command[0], command);
+        
+    } 
 
     inputline = inputline.substr(0,min);
     inputline = trim(inputline);
     return inputline;
-
+    //char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
+    //execvp(command[0], command);
 }
 
 static void prompt() {
