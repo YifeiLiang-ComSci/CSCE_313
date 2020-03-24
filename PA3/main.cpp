@@ -115,10 +115,10 @@ int main(){
     strncpy(pwd,cwd,sizeof(cwd));
 
     while(true){
-        cout<<"size of status:"<<status.size()<<endl;
-    for(int i = 0; i < status.size();i++){
-        cout<<status[i]<<endl;
-    }
+    //     cout<<"size of status:"<<status.size()<<endl;
+    // for(int i = 0; i < status.size();i++){
+    //     cout<<status[i]<<endl;
+    // }
         for(int i = 0; i < backgrounds.size();i++){
             int state;
             waitpid(backgrounds[i],&state, WNOHANG);
@@ -157,7 +157,7 @@ int main(){
 
         if((int)inputline.find("jobs") == 0){
             bool run = false;
-            for(int j = 0; j < process.size();j++){
+            for(int j = 0; j < backgrounds.size();j++){
                         if((int)(status[j].find("Collected")) !=0 ){
                             run = true;
                             cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[j]<<endl;
@@ -192,7 +192,7 @@ int main(){
                     backgrounds.push_back(pid);
                     status.push_back("Running");
                     line.push_back(inputline);
-                    for(int j = 0; j < process.size();j++){
+                    for(int j = 0; j < backgrounds.size();j++){
                         if((int)(status[j].find("Collected")) !=0 ){
                             cout<<"["<<j+1<<"]"<<" "<<status[j]<<"\t"<<line[j]<<endl;
                             if(((int)(status[j].find("Done"))) == 0){
