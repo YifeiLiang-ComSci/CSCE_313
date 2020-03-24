@@ -165,7 +165,6 @@ void execute(string inputline){
     char** command = parseInput((char*)inputline.c_str(), sizeof(inputline));
     execvp(command[0],command);
 } else if((int)(inputline.find("cd")) == 0 ){
-    strncpy(pwd,cwd,sizeof(cwd));
     int index = inputline.find("cd");
     string path = inputline.substr(index + 2);
     path = trim(path);
@@ -198,7 +197,7 @@ else {
 
 int main(){
     getcwd(cwd,sizeof(cwd));
-strncpy(pwd,cwd,sizeof(cwd));
+
     while(true){
 
     
@@ -219,7 +218,7 @@ strncpy(pwd,cwd,sizeof(cwd));
             }
         }
         prompt();
-
+        strncpy(pwd,cwd,sizeof(cwd));
         int stdin = dup(0);
         int stdout = dup(1);
 
