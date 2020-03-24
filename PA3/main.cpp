@@ -123,7 +123,7 @@ int main(){
             int state;
             waitpid(backgrounds[i],&state, WNOHANG);
             if (WIFEXITED(state)){
-                if(status[i].find("Done") == 0){
+                if(status[i].find("Collected") == 0){
 
                 }else{
                     cout<<status[i]<<"to" <<" Done"<<endl;
