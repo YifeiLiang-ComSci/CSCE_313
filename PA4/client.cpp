@@ -37,7 +37,7 @@ void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buff
 		Functionality of the worker threads	
     */
     char buf[1024];
-    double resp;
+    double resp=0;
     while(true){
         request_buffer->pop(buf,1024);
         MESSAGE_TYPE* m = (MESSAGE_TYPE*) buf;
