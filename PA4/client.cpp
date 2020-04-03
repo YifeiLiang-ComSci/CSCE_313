@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
     chan->cwrite ((char *) &q, sizeof (MESSAGE_TYPE));
     cout << "All Done!!!" << endl;
     delete chan;
-    delete hc;
+
     return 0;
     
 }
