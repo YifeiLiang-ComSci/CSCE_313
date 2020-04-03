@@ -12,7 +12,7 @@ FIFOreqchannel.o: FIFOreqchannel.h FIFOreqchannel.cpp
 	g++ -g -w -std=c++11 -c FIFOreqchannel.cpp
 
 client: client.cpp Histogram.o FIFOreqchannel.o common.o
-	g++ -g -w -std=c++11 -o client client.cpp Histogram.o FIFOreqchannel.o common.o -lpthread 
+	g++ -g -w -std=c++11 -o client client.cpp Histogram.o FIFOreqchannel.o common.o -lpthread -g -fsanitize=address 
 
 server: server.cpp  FIFOreqchannel.o common.o
 	g++ -g -w -std=c++11 -o server server.cpp FIFOreqchannel.o common.o -lpthread 
