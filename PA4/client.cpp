@@ -69,7 +69,26 @@ int main(int argc, char *argv[])
 	int m = MAX_MESSAGE; 	// default capacity of the message buffer
     srand(time_t(NULL));
     
-    
+    int opt = -1;
+    while((opt = getopt(argc,argv,"m:n:b:w:p:"))!= -1){
+        switch(opt){
+            case 'm':
+                m = atoi(optarg);
+                break;
+            case 'n':
+                n = atoi(optarg);
+                break;
+            case 'p':
+                p = atoi(optarg);
+                break;
+            case 'b':
+                b = atoi(optarg);
+                break;
+            case 'w':
+                w = atoi(optarg);
+                break;
+        }
+    }
     int pid = fork();
     if (pid == 0){
 		// modify this to pass along m
