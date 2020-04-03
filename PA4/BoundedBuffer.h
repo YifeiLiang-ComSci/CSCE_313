@@ -8,6 +8,7 @@
 #include <string>
 #include <mutex>
 #include <assert.h>
+#include <condition_variable>
 using namespace std;
 
 class BoundedBuffer
@@ -22,7 +23,8 @@ private:
 
 	// add necessary synchronization variables and data structures 
 	mutex m;
-
+	condition_variable data_available;//for wat by the pop, singnaled by push function
+	condition_variable slot_available;
 public:
 	BoundedBuffer(int _cap){
 		cap = _cap; 
@@ -33,28 +35,33 @@ public:
 	}
 
 	void push(char* data, int len){
-		//1. Wait until there is room in the queue (i.e., queue lengh is less than cap)
-		//2. Convert the incoming byte sequence given by data and len into a vector<char>
 		vector<char> d(data,data + len);
+		unique_lock<mutex>l(m);
+		//1. Wait until there is room in the queue (i.e., queue lengh is less than cap)
+		slot_available.wait(l,[this]{return q.size() < cap;});
+		//2. Convert the incoming byte sequence given by data and len into a vector<char>
+		
 		//3. Then push the vector at the end of the queue,watch out for race condition
-		m.lock();
-		q.push(d);
-		m.unlock();
 
+		q.push(d);
+		l.unlock();
+		data_available.notify_one();
 
 	}
 
 	int pop(char* buf, int bufcap){
 		//1. Wait until the queue has at least 1 item
-
+		unique_lock<mutex>l(m);
+		data_available.wait(l, [this]{return q.size()> 0;});
 		//2. pop the front item of the queue. The popped item is a vector<char>
-		m.lock();
+
 		vector<char> d = q.front();
 		q.pop();
-		m.unlock();
+		l.unlock();
 		//3. Convert the popped vector<char> into a char*, copy that into buf, make sure that vector<char>'s length is <= bufcap
 		assert(d.size()<= cap);
 		memcpy(buf,d.data(),d.size());
+		slot_available.notify_one();
 		//4. Return the vector's length to the caller so that he knows many bytes were popped
 		return d.size();
 	}

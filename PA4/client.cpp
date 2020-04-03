@@ -114,6 +114,9 @@ int main(int argc, char *argv[])
     for(int i = 0; i < p; i++){
         patient[i].join();
     }
+    for(int i = 0; i < w; i++){
+        workers[i].join();
+    }
     gettimeofday (&end, 0);
     // print the results
 	hc.print ();
