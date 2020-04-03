@@ -59,7 +59,7 @@ public:
 		q.pop();
 		l.unlock();
 		//3. Convert the popped vector<char> into a char*, copy that into buf, make sure that vector<char>'s length is <= bufcap
-		assert(d.size()<= cap);
+		assert(d.size()<= len);
 		memcpy(buf,d.data(),d.size());
 		slot_available.notify_one();
 		//4. Return the vector's length to the caller so that he knows many bytes were popped
