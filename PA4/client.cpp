@@ -44,6 +44,7 @@ void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buff
 
 
         if(*m == DATA_MSG){
+            cout<<1<<endl;
             chan->cwrite(buf,sizeof(datamsg));
             chan->cread(&resp,sizeof(double));
             hc->update(((datamsg*)buf)->person,resp);
