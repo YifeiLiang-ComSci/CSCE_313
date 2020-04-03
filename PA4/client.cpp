@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
     cout<<"Patient finished"<<endl;
     for(int i = 0; i < w; i++){
        MESSAGE_TYPE q = QUIT_MSG;
-       request_buffer((char*)&q,sizeof(q));
+       request_buffer.push((char*)&q,sizeof(q));
     }
     for(int i = 0; i < w; i++){
         workers[i].join();
