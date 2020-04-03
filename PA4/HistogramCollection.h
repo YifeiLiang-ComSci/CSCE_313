@@ -54,7 +54,9 @@ public:
         }
         cout << endl;
     }
-
+    void update(int pno, double value){
+        hists[pno - 1] ->update(value);
+    }
     
 
     
