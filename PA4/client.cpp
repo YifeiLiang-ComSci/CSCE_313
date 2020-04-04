@@ -70,18 +70,18 @@ void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buff
     }
 }
 
-void file_thread_function(string fname, BoundedBuffer* request_buffer,FIFORequestChannel * chan){
+void file_thread_function(string fname, BoundedBuffer* request_buffer,FIFORequestChannel * chan, int m){
     string recvfname = "recv/" + fname;
-    FILE* fp = fopen(recvfname.c_str(), "w");
+    //FILE* fp = fopen(recvfname.c_str(), "w");
     char buf[1024];
     filemsg f(0,0);
     memcpy(buf,&f,sizeof(f));
     strcpy(buf + sizeof(f),fname.c_str());
-    chan->cwrite(buf, sizeof(f) + fname + 1);
+    chan->cwrite(buf, sizeof(f) + fname.size() + 1);
     __int64_t filelength;
-    chan->read(&filelength,sizeof(filelength));
+    chan->cread(&filelength,sizeof(filelength));
 
-    FILE* fp = fopen(recvfname.c_str(),"w");
+    FILE*  fp= fopen(recvfname.c_str(),"w");
     fseek(fp,filelength,SEEK_SET);
     fclose(fp);
 
@@ -89,7 +89,7 @@ void file_thread_function(string fname, BoundedBuffer* request_buffer,FIFOReques
     __int64_t remlen = filelength;
 
     while(remlen > 0){
-        fm->length = min(remlen,(__int64_t)mb);
+        fm->length = min(remlen,(__int64_t) m);
         request_buffer->push(buf,sizeof(filemsg)+fname.size()+1);
         fm->offset += fm->length;
         remlen -=fm->length;
