@@ -6,6 +6,7 @@
 #include "FIFOreqchannel.h"
 #include <time.h>
 #include <thread>
+#include <stdio.h>
 using namespace std;
 
 
@@ -32,12 +33,13 @@ void patient_thread_function(int n,int pno, BoundedBuffer* request_buffer){
     
 }
 
-void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buffer,HistogramCollection* hc){
+void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buffer,HistogramCollection* hc,int mb){
     /*
 		Functionality of the worker threads	
     */
     char buf[1024];
     double resp=0;
+    char recevbuf[mb];
     while(true){
         request_buffer->pop(buf,1024);
         MESSAGE_TYPE* m = (MESSAGE_TYPE*) buf;
@@ -49,7 +51,17 @@ void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buff
             chan->cread(&resp,sizeof(double));
             hc->update(((datamsg*)buf)->person,resp);
         } else if(*m == FILE_MSG){
+            filemsg* fm = (filemsg*) buf;
+            string fname = (char*)(fm + 1);
+            int sz = sizeof(filemsg) + fname.size()+1;
 
+            chan->cwrite(buf,sz);
+            chan->cread(recevbuf,mb);
+            string recvfname = "recv/" + fname;
+            FILE* fp = fopen(recvfname.c_str(),"r+");
+            fseek(fp,fm->offset, SEEK_SET);
+            fwrite(recevbuf,1,fm->length,fp);
+            fclose(fp);
         }else if(*m == QUIT_MSG){
             chan->cwrite(m, sizeof(MESSAGE_TYPE));
             delete chan;
@@ -57,6 +69,35 @@ void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buff
         }
     }
 }
+
+void file_thread_function(string fname, BoundedBuffer* request_buffer,FIFORequestChannel * chan){
+    string recvfname = "recv/" + fname;
+    FILE* fp = fopen(recvfname.c_str(), "w");
+    char buf[1024];
+    filemsg f(0,0);
+    memcpy(buf,&f,sizeof(f));
+    strcpy(buf + sizeof(f),fname.c_str());
+    chan->cwrite(buf, sizeof(f) + fname + 1);
+    __int64_t filelength;
+    chan->read(&filelength,sizeof(filelength));
+
+    FILE* fp = fopen(recvfname.c_str(),"w");
+    fseek(fp,filelength,SEEK_SET);
+    fclose(fp);
+
+    filemsg* fm = (filemsg*) buf;
+    __int64_t remlen = filelength;
+
+    while(remlen > 0){
+        fm->length = min(remlen,(__int64_t)mb);
+        request_buffer->push(buf,sizeof(filemsg)+fname.size()+1);
+        fm->offset += fm->length;
+        remlen -=fm->length;
+    }
+
+}
+
+
 
 
 
@@ -68,7 +109,7 @@ int main(int argc, char *argv[])
     int b = 500; 	// default capacity of the request buffer, you should change this default
 	int m = MAX_MESSAGE; 	// default capacity of the message buffer
     srand(time_t(NULL));
-    
+    string fname = "10.csv";
     int opt = -1;
     while((opt = getopt(argc,argv,"m:n:b:w:p:"))!= -1){
         switch(opt){
@@ -118,23 +159,25 @@ int main(int argc, char *argv[])
 
     /* Start all threads here */
 	
-    thread patient[p];
-    for (int i = 0; i < p; i++){
-        patient[i] = thread(patient_thread_function,n,i+1,&request_buffer);
-    }
+    // thread patient[p];
+    // for (int i = 0; i < p; i++){
+    //     patient[i] = thread(patient_thread_function,n,i+1,&request_buffer);
+    // }
 
+    thread filethread(file_thread_function,fname,&request_buffer,chan,m);
     thread workers[w];
     for(int i = 0; i < w; i++){
-        workers[i] = thread(worker_thread_function, wchans[i],&request_buffer,&hc);
+        workers[i] = thread(worker_thread_function, wchans[i],&request_buffer,&hc , m);
     }
 
 
 
 	/* Join all threads here */
-    for(int i = 0; i < p; i++){
-        patient[i].join();
-    }
-    cout<<"Patient finished"<<endl;
+    // for(int i = 0; i < p; i++){
+    //     patient[i].join();
+    // }
+    filethread.join();
+    cout<<"Patient or file finished"<<endl;
     for(int i = 0; i < w; i++){
        MESSAGE_TYPE q = QUIT_MSG;
        request_buffer.push((char*)&q,sizeof(q));
