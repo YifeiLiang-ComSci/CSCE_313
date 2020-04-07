@@ -111,7 +111,8 @@ int main(int argc, char *argv[])
     srand(time_t(NULL));
     string fname = "10.csv";
     int opt = -1;
-    while((opt = getopt(argc,argv,"m:n:b:w:p:"))!= -1){
+    bool filetransfer = false;
+    while((opt = getopt(argc,argv,"m:n:b:w:p:f:"))!= -1){
         switch(opt){
             case 'm':
                 m = atoi(optarg);
@@ -128,6 +129,11 @@ int main(int argc, char *argv[])
             case 'w':
                 w = atoi(optarg);
                 break;
+            case 'f':
+                fname = optarg;
+                filetransfer = true;
+                break;
+
         }
     }
     int pid = fork();
@@ -158,13 +164,18 @@ int main(int argc, char *argv[])
     gettimeofday (&start, 0);
 
     /* Start all threads here */
-	
-    // thread patient[p];
-    // for (int i = 0; i < p; i++){
-    //     patient[i] = thread(patient_thread_function,n,i+1,&request_buffer);
-    // }
+	thread patient[p];
+    thread filethread[1];
+    if(filetransfer){
+    filethread[0] = thread(file_thread_function,fname,&request_buffer,chan,m);
+    } else {
+     
+    for (int i = 0; i < p; i++){
+        patient[i] = thread(patient_thread_function,n,i+1,&request_buffer);
+    }
+    }
 
-    thread filethread(file_thread_function,fname,&request_buffer,chan,m);
+
     thread workers[w];
     for(int i = 0; i < w; i++){
         workers[i] = thread(worker_thread_function, wchans[i],&request_buffer,&hc , m);
@@ -176,7 +187,13 @@ int main(int argc, char *argv[])
     // for(int i = 0; i < p; i++){
     //     patient[i].join();
     // }
-    filethread.join();
+    if(filetransfer){
+        filethread[0].join();
+    } else{
+        for(int i = 0; i < p; i++){
+         patient[i].join();
+     }
+    }
     cout<<"Patient or file finished"<<endl;
     for(int i = 0; i < w; i++){
        MESSAGE_TYPE q = QUIT_MSG;
