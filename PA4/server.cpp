@@ -150,7 +150,7 @@ void handle_process_loop(FIFORequestChannel *channel){
 	while (true){
 		int nbytes = channel->cread (buffer, buffercapacity);
 		if (nbytes < 0){
-			//cerr << "Client-side terminated abnormally" << endl;
+			cerr << "Client-side terminated abnormally" << endl;
 			break;
 		}else if (nbytes == 0){
 			// could not read anything in current iteration
@@ -158,7 +158,7 @@ void handle_process_loop(FIFORequestChannel *channel){
 		}
 		MESSAGE_TYPE m = *(MESSAGE_TYPE *) buffer;
 		if (m == QUIT_MSG){
-			cout << "Client-side is done and exited" << endl;
+			//cout << "Client-side is done and exited" << endl;
 			break;
 			// note that QUIT_MSG does not get a reply from the server
 		}
