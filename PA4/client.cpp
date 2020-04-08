@@ -139,7 +139,13 @@ int main(int argc, char *argv[])
     int pid = fork();
     if (pid == 0){
 		// modify this to pass along m
-        execl ("server", "server", (char *)NULL);
+        // execl ("server", "server", (char *)NULL);
+         string command  =to_string(m);
+
+        char charCommand[command.length()+1];
+        strcpy(charCommand,command.c_str());
+        char *args[] = { "./server","-m", charCommand, NULL};
+         execvp(args[0], args);
     }
     
 	FIFORequestChannel* chan = new FIFORequestChannel("control", FIFORequestChannel::CLIENT_SIDE);
