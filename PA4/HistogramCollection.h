@@ -11,6 +11,11 @@ public:
     HistogramCollection (){
         hists.clear();
     }
+    ~HistogramCollection(){
+        for(int i = 0; i < hists.size();i++){
+            delete hists[i];
+        }
+    }
     
     void add (Histogram* h){
         hists.push_back (h);
