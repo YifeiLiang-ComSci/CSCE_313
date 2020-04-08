@@ -150,7 +150,7 @@ void handle_process_loop(FIFORequestChannel *channel){
 	while (true){
 		int nbytes = channel->cread (buffer, buffercapacity);
 		if (nbytes < 0){
-			cerr << "Client-side terminated abnormally" << endl;
+			//cerr << "Client-side terminated abnormally" << endl;
 			break;
 		}else if (nbytes == 0){
 			// could not read anything in current iteration
