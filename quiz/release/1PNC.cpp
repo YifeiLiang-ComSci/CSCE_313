@@ -52,7 +52,7 @@ void consumer_function (int cno){
 		mtx.P();
 		cout << ">>>>>>>>>>>>>>>>>>>>Consumer [" <<cno<<"] got <<<<<<<<<<" << buffer << endl;
 		mtx.V();
-		usleep (500000);
+		sleep (500000);
 
 		// now do whatever necessary that would indicate that the consumers are all done
 		mtx.P();
