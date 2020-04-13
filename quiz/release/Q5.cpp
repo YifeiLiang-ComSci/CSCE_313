@@ -42,12 +42,14 @@ void producer_function (int pno){
 		// now do whatever that would indicate that the producers are done
 		// in this case, the single producer is waking up all NC consumers
 		// this will have to change when you have NP producers
+		mtx.P();
 		if(npdone == NP){
 			npdone = 0;
 		for (int i=0; i<NC; i++)
 			producerdone.V();
 
-	}
+		}
+		mtx.V();
 	}
 }
 // each consumer gets an id cno
@@ -61,7 +63,7 @@ void consumer_function (int cno){
 		mtx.P();
 		cout << ">>>>>>>>>>>>>>>>>>>>Consumer [" <<cno<<"] got <<<<<<<<<<" << buffer << endl;
 		mtx.V();
-		sleep (5);
+		sleep (1);
 
 		// now do whatever necessary that would indicate that the consumers are all done
 		mtx.P();
