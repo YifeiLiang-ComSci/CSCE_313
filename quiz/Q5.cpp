@@ -34,7 +34,7 @@ void producer_function (int pno){
 		mtx.P();
 
 		buffer ++;
-		npdone++;
+		
 		cout << "Producer [" << pno << "] left buffer=" << buffer << endl;
 		mtx.V();
 
@@ -43,6 +43,7 @@ void producer_function (int pno){
 		// in this case, the single producer is waking up all NC consumers
 		// this will have to change when you have NP producers
 		mtx.P();
+		npdone++;
 		if(npdone == NP){
 			npdone = 0;
 		for (int i=0; i<NC; i++)

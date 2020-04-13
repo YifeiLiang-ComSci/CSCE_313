@@ -1,10 +1,9 @@
 #include <iostream>
-
-#include <stdlib.h>
-#include "Semaphore.h"
-#include <vector>
-#include <unistd.h>
 #include <thread>
+#include <stdlib.h>
+#include <unistd.h>
+#include <vector>
+#include "Semaphore.h"
 using namespace std;
 
 /* This program now only works for NP=1 (i.e., 1 producer and NC consumers). 
@@ -46,11 +45,11 @@ void producer_function (int pno){
 		// this will have to change when you have NP producers
         mtx.P();
         npdone ++;
-        if (npdone == A) // it is the last one
+        if (npdone == A) 
         {
-        	npdone = 0;// reset the counter
+        	npdone = 0;
             for (int i=0; i<B; i++)
-                Adone.V(); // so wake up the consumer
+                Adone.V(); 
             
         }
         mtx.V();
@@ -99,11 +98,10 @@ void C_function (int cno){
 		mtx.P();
 		cdone ++;
 		if (cdone == C)
-        { // it is the last one
+        {
             for(int i = 0; i < A ; i++)
-                Cdone.V(); // so wake up the producer
-			cdone = 0; // reset the counter
-		}
+                Cdone.V(); 
+			cdone = 0; 
 		mtx.V();
 	}
 }
