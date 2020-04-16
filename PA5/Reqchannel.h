@@ -33,7 +33,7 @@ public:
 	 limit the number of open files per process.
 	*/
 
-	virtual ~RequestChannel();
+	virtual ~RequestChannel(){};
 	/* Destructor of the local copy of the bus. By default, the Server Side deletes any IPC 
 	 mechanisms associated with the channel. */
 
