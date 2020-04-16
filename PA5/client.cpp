@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 	//make worker channels
     RequestChannel* wchans[w];
     for(int i = 0; i < w ;i++){
-        wchans[i] = create_new_channel(chan, ival,int m);
+        wchans[i] = create_new_channel(chan, ival,m);
     }
 	
 
