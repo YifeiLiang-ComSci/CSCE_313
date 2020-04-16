@@ -75,7 +75,7 @@ void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,H
             fclose(fp);
         }else if(*m == QUIT_MSG){
             chan->cwrite(m, sizeof(MESSAGE_TYPE));
-            cout<<"quitted"<<endl
+            cout<<"quitted"<<endl;
             delete chan;
             break;
         }
