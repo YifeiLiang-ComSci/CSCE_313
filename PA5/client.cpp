@@ -57,7 +57,7 @@ void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,H
 
 
         if(*m == DATA_MSG){
-
+            cout<<"run"<<endl;
             chan->cwrite(buf,sizeof(datamsg));
             chan->cread(&resp,sizeof(double));
             hc->update(((datamsg*)buf)->person,resp);
@@ -223,10 +223,10 @@ int main(int argc, char *argv[])
        request_buffer.push((char*)&q,sizeof(q));
     }
     cout<<"run"<<endl;
-    // for(int i = 0; i < w; i++){
-    //     cout<<"in join waiting"<<endl;
-    //     workers[i].join();
-    // }
+    for(int i = 0; i < w; i++){
+        cout<<"in join waiting"<<endl;
+        workers[i].join();
+    }
     cout<<"run end"<<endl;
     gettimeofday (&end, 0);
     // print the results
