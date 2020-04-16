@@ -13,7 +13,7 @@
 using namespace std;
 
 
-RequestChannel* create_new_channel(RequestChannel* mainChan,string ival){
+RequestChannel* create_new_channel(RequestChannel* mainChan,string ival,int mb){
     char name[1024];
     MESSAGE_TYPE m = NEWCHANNEL_MSG;
     mainChan->cwrite(&m, sizeof(m));
@@ -25,7 +25,7 @@ RequestChannel* create_new_channel(RequestChannel* mainChan,string ival){
         newchan= new FIFORequestChannel(name,RequestChannel::CLIENT_SIDE);
     }
     else if(ival == "q"){
-        newchan= new MQRequestChannel(name,RequestChannel::CLIENT_SIDE);
+        newchan= new MQRequestChannel(name,RequestChannel::CLIENT_SIDE.mb);
     }
     return newchan;
 }
@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
     if(ival == "f")
         chan = new FIFORequestChannel("control", RequestChannel::CLIENT_SIDE);
     else if(ival == "q")
-        chan = new FIFORequestChannel("control", RequestChannel::CLIENT_SIDE);
+        chan = new FIFORequestChannel("control", RequestChannel::CLIENT_SIDE,m);
     BoundedBuffer request_buffer(b);
 	HistogramCollection hc;
 
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 	//make worker channels
     RequestChannel* wchans[w];
     for(int i = 0; i < w ;i++){
-        wchans[i] = create_new_channel(chan, ival);
+        wchans[i] = create_new_channel(chan, ival,int m);
     }
 	
 

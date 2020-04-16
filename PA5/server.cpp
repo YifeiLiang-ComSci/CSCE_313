@@ -42,7 +42,7 @@ void process_newchannel_request (RequestChannel *_channel){
 	if(ival =="f")
 		data_channel = new FIFORequestChannel (new_channel_name, RequestChannel::SERVER_SIDE);
 	else if(ival == "q")
-		data_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE);
+		data_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
 	thread thread_for_client (handle_process_loop, data_channel);
 	thread_for_client.detach();
 }
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]){
 	if(ival == "f")
 		control_channel =  new FIFORequestChannel ("control", RequestChannel::SERVER_SIDE);
 	else if(ival == "q")
-		control_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE);
+		control_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
 	handle_process_loop (control_channel);
 	cout << "Server terminated" << endl;
 	delete control_channel;
