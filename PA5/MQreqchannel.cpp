@@ -7,10 +7,10 @@ using namespace std;
 /* CONSTRUCTOR/DESTRUCTOR FOR CLASS   R e q u e s t C h a n n e l  */
 /*--------------------------------------------------------------------------*/
 
-MQRequestChannel::MQRequestChannel(const string _name, const Side _side) : RequestChannel(_name,_side){
+MQRequestChannel::MQRequestChannel(const string _name, const Side _side,int _bs) : RequestChannel(_name,_side){
 	pipe1 = "/mq_" + my_name + "1";
 	pipe2 = "/mq_" + my_name + "2";
-		
+	buffersize = _bs;
 	if (_side == SERVER_SIDE){
 		wfd = open_pipe(pipe1, O_WRONLY);
 		rfd = open_pipe(pipe2, O_RDONLY);
@@ -32,7 +32,10 @@ MQRequestChannel::~MQRequestChannel(){
 }
 
 int MQRequestChannel::open_pipe(string _pipe_name, int mode){
-	int fd = mq_open(_pipe_name.c_str(),O_RDWR|O_CREAT,0600,NULL );
+	 struct mq_attr attr{0,0,buffersize,0};
+    
+
+	int fd = mq_open(_pipe_name.c_str(),O_RDWR|O_CREAT,0600,&attr );
 	if (fd < 0){
 		EXITONERROR(_pipe_name);
 	}
@@ -40,7 +43,7 @@ int MQRequestChannel::open_pipe(string _pipe_name, int mode){
 }
 
 int MQRequestChannel::cread(void* msgbuf, int bufcapacity){
-	return mq_receive(rfd, (char*)msgbuf, bufcapacity,0); 
+	return mq_receive(rfd, (char*)msgbuf, buffersize,0); 
 }
 
 int MQRequestChannel::cwrite(void* msgbuf, int len){

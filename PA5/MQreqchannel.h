@@ -14,9 +14,10 @@ private:
 	
 	string pipe1, pipe2;
 	int open_pipe(string _pipe_name, int mode);
+	int buffersize;
 	
 public:
-	MQRequestChannel(const string _name, const Side _side);
+	MQRequestChannel(const string _name, const Side _side,int _bs);
 	
 
 	~MQRequestChannel();
