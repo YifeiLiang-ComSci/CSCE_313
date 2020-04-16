@@ -61,7 +61,13 @@ void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,H
             chan->cwrite(buf,sizeof(datamsg));
             chan->cread(&resp,sizeof(double));
             hc->update(((datamsg*)buf)->person,resp);
-        } else if(*m == FILE_MSG){
+        } else if(*m == QUIT_MSG){
+
+            chan->cwrite(m, sizeof(MESSAGE_TYPE));
+
+            delete chan;
+            break;
+        }else if(*m == FILE_MSG){
             filemsg* fm = (filemsg*) buf;
             string fname = (char*)(fm + 1);
             int sz = sizeof(filemsg) + fname.size()+1;
@@ -73,12 +79,6 @@ void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,H
             fseek(fp,fm->offset, SEEK_SET);
             fwrite(recevbuf,1,fm->length,fp);
             fclose(fp);
-        }else{
-
-            chan->cwrite(m, sizeof(MESSAGE_TYPE));
-
-            delete chan;
-            break;
         }
     }
 }

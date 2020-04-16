@@ -197,7 +197,7 @@ int main(int argc, char *argv[]){
 		control_channel =  new FIFORequestChannel ("control", RequestChannel::SERVER_SIDE);
 	}
 	else if(ival == "q"){
-		cout<<"MQRequestChannel"<<endl;
+
 		control_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
 	}
 	handle_process_loop (control_channel);
