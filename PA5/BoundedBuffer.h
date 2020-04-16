@@ -1,6 +1,6 @@
 #ifndef BoundedBuffer_h
 #define BoundedBuffer_h
-
+#include <iostream>
 #include <stdio.h>
 #include <queue>
 #include <string>
@@ -57,6 +57,7 @@ public:
 
 		vector<char> d = q.front();
 		q.pop();
+		cout<<"q.size(): "<<q.size()<<endl;
 		l.unlock();
 		//3. Convert the popped vector<char> into a char*, copy that into buf, make sure that vector<char>'s length is <= bufcap
 		assert(d.size()<= bufcap );
