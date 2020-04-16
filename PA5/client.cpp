@@ -152,12 +152,7 @@ int main(int argc, char *argv[])
     if (pid == 0){
 		// modify this to pass along m
        // execl ("server", "server", (char *)NULL);
-         string command  =to_string(m);
-
-        char charCommand[command.length()+1];
-        strcpy(charCommand,command.c_str());
-        char *args[] = { "./server","-m", charCommand, NULL};
-         execvp(args[0], args);
+         execl("server","server","-m",to_string(m).c_str(),"-i",ival.c_str(),(char *)NULL);
     }
     
 	RequestChannel* chan;
