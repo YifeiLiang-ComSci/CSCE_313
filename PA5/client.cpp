@@ -223,6 +223,7 @@ int main(int argc, char *argv[])
     for(int i = 0; i < w; i++){
         workers[i].join();
     }
+    cout<<"run end"<<endl;
     gettimeofday (&end, 0);
     // print the results
     if(!filetransfer)
