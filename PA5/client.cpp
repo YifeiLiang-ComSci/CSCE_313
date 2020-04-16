@@ -154,7 +154,11 @@ int main(int argc, char *argv[])
          execvp(args[0], args);
     }
     
-	RequestChannel* chan = new FIFORequestChannel("control", FIFORequestChannel::CLIENT_SIDE);
+	RequestChannel* chan;
+    if(ival == "f")
+        chan = new FIFORequestChannel("control", FIFORequestChannel::CLIENT_SIDE);
+    else if(ival == "q")
+        ;
     BoundedBuffer request_buffer(b);
 	HistogramCollection hc;
 
