@@ -54,10 +54,10 @@ void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,H
     while(true){
         request_buffer->pop(buf,1024);
         MESSAGE_TYPE* m = (MESSAGE_TYPE*) buf;
-
+        cout<<"waiting";
 
         if(*m == DATA_MSG){
-            cout<<"run"<<endl;
+
             chan->cwrite(buf,sizeof(datamsg));
             chan->cread(&resp,sizeof(double));
             hc->update(((datamsg*)buf)->person,resp);
@@ -218,13 +218,13 @@ int main(int argc, char *argv[])
     }
     cout<<"Patient or file finished"<<endl;
     for(int i = 0; i < w; i++){
-        cout<<"quit in for loop"<<endl;
+
        MESSAGE_TYPE q = QUIT_MSG;
        request_buffer.push((char*)&q,sizeof(q));
     }
     cout<<"run"<<endl;
     for(int i = 0; i < w; i++){
-        cout<<"in join waiting"<<endl;
+
         workers[i].join();
     }
     cout<<"run end"<<endl;

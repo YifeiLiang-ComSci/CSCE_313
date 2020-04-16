@@ -193,10 +193,13 @@ int main(int argc, char *argv[]){
 	}
 	
 	RequestChannel* control_channel = NULL;
-	if(ival == "f")
+	if(ival == "f"){
 		control_channel =  new FIFORequestChannel ("control", RequestChannel::SERVER_SIDE);
-	else if(ival == "q")
+	}
+	else if(ival == "q"){
+		cout<<"MQRequestChannel"<<endl;
 		control_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
+	}
 	handle_process_loop (control_channel);
 	cout << "Server terminated" << endl;
 	delete control_channel;
