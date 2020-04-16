@@ -73,7 +73,7 @@ void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,H
             fseek(fp,fm->offset, SEEK_SET);
             fwrite(recevbuf,1,fm->length,fp);
             fclose(fp);
-        }else if(*m == QUIT_MSG){
+        }else{
             cout<<"quitted"<<endl;
             chan->cwrite(m, sizeof(MESSAGE_TYPE));
             cout<<"quitted"<<endl;
