@@ -14,7 +14,7 @@
 #include <math.h>
 #include <unistd.h>
 #include "FIFOreqchannel.h"
-#include "Reqchannel"
+#include "Reqchannel.h"
 using namespace std;
 
 
