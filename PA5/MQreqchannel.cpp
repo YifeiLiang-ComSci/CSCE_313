@@ -32,7 +32,7 @@ MQRequestChannel::~MQRequestChannel(){
 }
 
 int MQRequestChannel::open_pipe(string _pipe_name, int mode){
-	int fd = mq_open(_pipe_name.c_str(),O_RDWR|O_CREAT,0600,NULL )
+	int fd = mq_open(_pipe_name.c_str(),O_RDWR|O_CREAT,0600,NULL );
 	if (fd < 0){
 		EXITONERROR(_pipe_name);
 	}
