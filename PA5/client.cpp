@@ -219,6 +219,7 @@ int main(int argc, char *argv[])
        MESSAGE_TYPE q = QUIT_MSG;
        request_buffer.push((char*)&q,sizeof(q));
     }
+    cout<<"run"<<endl;
     for(int i = 0; i < w; i++){
         workers[i].join();
     }
