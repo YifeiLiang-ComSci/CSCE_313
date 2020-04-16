@@ -38,10 +38,10 @@ public:
 	 mechanisms associated with the channel. */
 
 
-	int cread(void* msgbuf, int bufcapacity);
+	virtual int cread(void* msgbuf, int bufcapacity) = 0;
 	
 	
-	int cwrite(void *msgbuf , int msglen);
+	virtual int cwrite(void *msgbuf , int msglen) = 0;
 	 
 	string name(){return my_name;} 
 };

@@ -3,7 +3,7 @@
 #define _FIFOreqchannel_H_
 
 #include "common.h"
-#include "RequestChannel.h"
+#include "Reqchannel.h"
 class FIFORequestChannel: public RequestChannel
 {
 private:
@@ -50,7 +50,7 @@ public:
 	bytes written and that can be less than msglen (even 0) probably due to buffer limitation (e.g., the recepient
 	cannot accept msglen bytes due to its own buffer capacity. */
 	 
-	string name(); 
+
 };
 
 #endif
