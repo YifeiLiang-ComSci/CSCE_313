@@ -7,6 +7,7 @@
 #include <time.h>
 #include <thread>
 #include <stdio.h>
+#include "MQreqchannel.h"
 
 #include "Reqchannel.h"
 using namespace std;
@@ -19,10 +20,10 @@ RequestChannel* create_new_channel(RequestChannel* mainChan,string ival){
     mainChan->cread(name,1024);
     RequestChannel* newchan = 0;
     if(ival == "f"){
-        newchan= new FIFORequestChannel(name,FIFORequestChannel::CLIENT_SIDE);
+        newchan= new FIFORequestChannel(name,RequestChannel::CLIENT_SIDE);
     }
     else if(ival == "q"){
-        ;
+        newchan= new MQRequestChannel(name,RequestChannel::CLIENT_SIDE);
     }
     return newchan;
 }
@@ -157,9 +158,9 @@ int main(int argc, char *argv[])
     
 	RequestChannel* chan;
     if(ival == "f")
-        chan = new FIFORequestChannel("control", FIFORequestChannel::CLIENT_SIDE);
+        chan = new FIFORequestChannel("control", RequestChannel::CLIENT_SIDE);
     else if(ival == "q")
-        ;
+        chan = new FIFORequestChannel("control", RequestChannel::CLIENT_SIDE);
     BoundedBuffer request_buffer(b);
 	HistogramCollection hc;
 
