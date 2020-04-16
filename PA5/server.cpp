@@ -37,7 +37,7 @@ void process_newchannel_request (RequestChannel *_channel){
 	strcpy (buf, new_channel_name.c_str());
 	_channel->cwrite(buf, new_channel_name.size()+1);
 
-	RequestChannel *data_channel = NULL
+	RequestChannel *data_channel = NULL;
 	if(ival =="f")
 		data_channel = new FIFORequestChannel (new_channel_name, RequestChannel::SERVER_SIDE);
 	else if(ival == "q")
