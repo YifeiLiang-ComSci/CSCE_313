@@ -218,6 +218,7 @@ int main(int argc, char *argv[])
     }
     cout<<"Patient or file finished"<<endl;
     for(int i = 0; i < w; i++){
+        cout<<"quit in for loop"<<endl;
        MESSAGE_TYPE q = QUIT_MSG;
        request_buffer.push((char*)&q,sizeof(q));
     }
