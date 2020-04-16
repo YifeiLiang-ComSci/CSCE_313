@@ -224,6 +224,7 @@ int main(int argc, char *argv[])
     }
     cout<<"run"<<endl;
     for(int i = 0; i < w; i++){
+        cout<<"in join waiting"<<endl;
         workers[i].join();
     }
     cout<<"run end"<<endl;
