@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
     if(ival == "f")
         chan = new FIFORequestChannel("control", RequestChannel::CLIENT_SIDE);
     else if(ival == "q")
-        chan = new FIFORequestChannel("control", RequestChannel::CLIENT_SIDE,m);
+        chan = new MQRequestChannel("control", RequestChannel::CLIENT_SIDE,m);
     BoundedBuffer request_buffer(b);
 	HistogramCollection hc;
 
