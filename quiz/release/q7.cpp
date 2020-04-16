@@ -1,6 +1,6 @@
 class Mutex{
 private:
-    int value;
+
     register reg;
     // required member variable(s)
 public:
@@ -16,8 +16,8 @@ public:
         do {
             int temp = 1;
             swap(&temp, reg);
-            value = temp;
-        }while(value == 1)
+
+        }while(temp == 1)
     }
     Unlock (){
         int temp = 0;
