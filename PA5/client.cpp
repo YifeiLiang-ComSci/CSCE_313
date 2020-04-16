@@ -7,6 +7,8 @@
 #include <time.h>
 #include <thread>
 #include <stdio.h>
+
+#include "RequestChannel.h"
 using namespace std;
 
 
@@ -112,7 +114,8 @@ int main(int argc, char *argv[])
     string fname = "10.csv";
     int opt = -1;
     bool filetransfer = false;
-    while((opt = getopt(argc,argv,"m:n:b:w:p:f:"))!= -1){
+    string ival = "f";
+    while((opt = getopt(argc,argv,"m:n:b:w:p:f:i:"))!= -1){
         switch(opt){
             case 'm':
                 m = atoi(optarg);
@@ -133,6 +136,9 @@ int main(int argc, char *argv[])
                 fname = optarg;
                 filetransfer = true;
                 break;
+            case 'i':
+                ival = optarg;
+                break;
 
         }
     }
@@ -148,7 +154,7 @@ int main(int argc, char *argv[])
          execvp(args[0], args);
     }
     
-	FIFORequestChannel* chan = new FIFORequestChannel("control", FIFORequestChannel::CLIENT_SIDE);
+	RequestChannel* chan = new FIFORequestChannel("control", FIFORequestChannel::CLIENT_SIDE);
     BoundedBuffer request_buffer(b);
 	HistogramCollection hc;
 
