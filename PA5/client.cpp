@@ -8,7 +8,7 @@
 #include <thread>
 #include <stdio.h>
 
-#include "ReqChannel.h"
+#include "Reqchannel.h"
 using namespace std;
 
 
