@@ -12,7 +12,7 @@
 using namespace std;
 
 
-RequestChannel* create_new_channel(FIFORequestChannel* mainChan){
+RequestChannel* create_new_channel(RequestChannel* mainChan,string ival){
     char name[1024];
     MESSAGE_TYPE m = NEWCHANNEL_MSG;
     mainChan->cwrite(&m, sizeof(m));
@@ -41,7 +41,7 @@ void patient_thread_function(int n,int pno, BoundedBuffer* request_buffer){
     
 }
 
-void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buffer,HistogramCollection* hc,int mb){
+void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,HistogramCollection* hc,int mb){
     /*
 		Functionality of the worker threads	
     */
@@ -78,7 +78,7 @@ void worker_thread_function(FIFORequestChannel* chan,BoundedBuffer* request_buff
     }
 }
 
-void file_thread_function(string fname, BoundedBuffer* request_buffer,FIFORequestChannel * chan, int m){
+void file_thread_function(string fname, BoundedBuffer* request_buffer,RequestChannel * chan, int m){
     string recvfname = "recv/" + fname;
     //FILE* fp = fopen(recvfname.c_str(), "w");
     char buf[1024];
