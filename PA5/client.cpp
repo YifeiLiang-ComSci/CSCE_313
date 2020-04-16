@@ -25,7 +25,7 @@ RequestChannel* create_new_channel(RequestChannel* mainChan,string ival,int mb){
         newchan= new FIFORequestChannel(name,RequestChannel::CLIENT_SIDE);
     }
     else if(ival == "q"){
-        newchan= new MQRequestChannel(name,RequestChannel::CLIENT_SIDE.mb);
+        newchan= new MQRequestChannel(name,RequestChannel::CLIENT_SIDE,mb);
     }
     return newchan;
 }
