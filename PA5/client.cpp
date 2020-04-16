@@ -12,12 +12,18 @@
 using namespace std;
 
 
-FIFORequestChannel* create_new_channel(FIFORequestChannel* mainChan){
+RequestChannel* create_new_channel(FIFORequestChannel* mainChan){
     char name[1024];
     MESSAGE_TYPE m = NEWCHANNEL_MSG;
     mainChan->cwrite(&m, sizeof(m));
     mainChan->cread(name,1024);
-    FIFORequestChannel* newchan = new FIFORequestChannel(name,FIFORequestChannel::CLIENT_SIDE);
+    RequestChannel* newchan = 0;
+    if(ival == "f"){
+        newchan= new FIFORequestChannel(name,FIFORequestChannel::CLIENT_SIDE);
+    }
+    else if(ival == "q"){
+        ;
+    }
     return newchan;
 }
 void patient_thread_function(int n,int pno, BoundedBuffer* request_buffer){
@@ -170,9 +176,9 @@ int main(int argc, char *argv[])
     }
 	
 	//make worker channels
-    FIFORequestChannel* wchans[w];
+    RequestChannel* wchans[w];
     for(int i = 0; i < w ;i++){
-        wchans[i] = create_new_channel(chan);
+        wchans[i] = create_new_channel(chan, ival);
     }
 	
 
