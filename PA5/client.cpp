@@ -17,7 +17,9 @@ RequestChannel* create_new_channel(RequestChannel* mainChan,string ival){
     char name[1024];
     MESSAGE_TYPE m = NEWCHANNEL_MSG;
     mainChan->cwrite(&m, sizeof(m));
+    cout<<"Sent a new channme mesg"<<endl;
     mainChan->cread(name,1024);
+      cout<<"waotomg a new channme mesg"<<endl;
     RequestChannel* newchan = 0;
     if(ival == "f"){
         newchan= new FIFORequestChannel(name,RequestChannel::CLIENT_SIDE);
