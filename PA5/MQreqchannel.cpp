@@ -32,7 +32,7 @@ MQRequestChannel::~MQRequestChannel(){
 }
 
 int MQRequestChannel::open_pipe(string _pipe_name, int mode){
-	 struct mq_attr attr{0,0 ,buffersize,0};
+	 struct mq_attr attr{0,1 ,buffersize,0};
     
 
 	int fd = mq_open(_pipe_name.c_str(),O_RDWR|O_CREAT,0600,&attr );
