@@ -43,12 +43,12 @@ int MQRequestChannel::open_pipe(string _pipe_name, int mode){
 }
 
 int MQRequestChannel::cread(void* msgbuf, int bufcapacity){
-	cout<<"readed"<<endl;
+
 	return mq_receive(rfd, (char*)msgbuf, buffersize,0); 
 }
 
 int MQRequestChannel::cwrite(void* msgbuf, int len){
-	cout<<"rewrite"<<endl;
+
 	return mq_send(wfd, (char*)msgbuf, len,0);
 }
 

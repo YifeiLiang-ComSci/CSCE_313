@@ -54,7 +54,7 @@ void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,H
     while(true){
         request_buffer->pop(buf,1024);
         MESSAGE_TYPE* m = (MESSAGE_TYPE*) buf;
-        cout<<"waiting";
+
 
         if(*m == DATA_MSG){
 
@@ -176,10 +176,10 @@ int main(int argc, char *argv[])
     }
 	
 	//make worker channels
-    // RequestChannel* wchans[w];
-    // for(int i = 0; i < w ;i++){
-    //     wchans[i] = create_new_channel(chan, ival,m);
-    // }
+    RequestChannel* wchans[w];
+    for(int i = 0; i < w ;i++){
+        wchans[i] = create_new_channel(chan, ival,m);
+    }
 	
 
     struct timeval start, end;
@@ -198,11 +198,11 @@ int main(int argc, char *argv[])
     }
 
 
-    // thread workers[w];
-    // for(int i = 0; i < w; i++){
-    //     workers[i] = thread(worker_thread_function, wchans[i],&request_buffer,&hc , m);
-    // }
-worker_thread_function(chan,&request_buffer,&hc , m);
+    thread workers[w];
+    for(int i = 0; i < w; i++){
+        workers[i] = thread(worker_thread_function, wchans[i],&request_buffer,&hc , m);
+    }
+
 
 
 	/* Join all threads here */
@@ -222,12 +222,12 @@ worker_thread_function(chan,&request_buffer,&hc , m);
        MESSAGE_TYPE q = QUIT_MSG;
        request_buffer.push((char*)&q,sizeof(q));
     }
-    cout<<"run"<<endl;
-    // for(int i = 0; i < w; i++){
 
-    //     workers[i].join();
-    // }
-    cout<<"run end"<<endl;
+    for(int i = 0; i < w; i++){
+
+        workers[i].join();
+    }
+
     gettimeofday (&end, 0);
     // print the results
     if(!filetransfer)
