@@ -42,7 +42,7 @@ void process_newchannel_request (RequestChannel *_channel){
 	if(ival =="f")
 		data_channel = new FIFORequestChannel (new_channel_name, RequestChannel::SERVER_SIDE);
 	else if(ival == "q")
-		data_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
+		data_channel =  new MQRequestChannel (new_channel_name, RequestChannel::SERVER_SIDE,buffercapacity);
 	thread thread_for_client (handle_process_loop, data_channel);
 	thread_for_client.detach();
 }
