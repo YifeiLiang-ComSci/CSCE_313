@@ -49,6 +49,6 @@ int MQRequestChannel::cread(void* msgbuf, int bufcapacity){
 
 int MQRequestChannel::cwrite(void* msgbuf, int len){
 
-	return mq_send(wfd, (char*)msgbuf, len,0);
+	return mq_send(wfd, (char*)msgbuf, buffersize,0);
 }
 
