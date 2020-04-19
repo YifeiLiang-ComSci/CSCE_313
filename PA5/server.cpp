@@ -45,6 +45,7 @@ void process_newchannel_request (RequestChannel *_channel){
 		data_channel =  new MQRequestChannel (new_channel_name, RequestChannel::SERVER_SIDE,buffercapacity);
 	thread thread_for_client (handle_process_loop, data_channel);
 	thread_for_client.detach();
+	delete data_channel;
 }
 
 void populate_file_data (int person){
