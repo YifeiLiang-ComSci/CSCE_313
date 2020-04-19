@@ -24,7 +24,7 @@ char* buffer = NULL; // buffer used by the server, allocated in the main
 
 
 int nchannels = 0;
-
+vector<RequestChannel*> usedChannel;
 pthread_mutex_t newchannel_lock;
 void handle_process_loop(RequestChannel *_channel);
 string ival;
@@ -39,13 +39,17 @@ void process_newchannel_request (RequestChannel *_channel){
 	_channel->cwrite(buf, new_channel_name.size()+1);
 
 	RequestChannel *data_channel = NULL;
-	if(ival =="f")
+	if(ival =="f"){
 		data_channel = new FIFORequestChannel (new_channel_name, RequestChannel::SERVER_SIDE);
-	else if(ival == "q")
+		usedChannel.push_back(data_channel);
+	}
+	else if(ival == "q"){
 		data_channel =  new MQRequestChannel (new_channel_name, RequestChannel::SERVER_SIDE,buffercapacity);
+		usedChannel.push_back(data_channel);
+	}
 	thread thread_for_client (handle_process_loop, data_channel);
 	thread_for_client.detach();
-	delete data_channel;
+
 }
 
 void populate_file_data (int person){
@@ -202,6 +206,9 @@ int main(int argc, char *argv[]){
 		control_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
 	}
 	handle_process_loop (control_channel);
+	for(int i = 0 ; i  < usedChannel.size();i++){
+		delete usedChannel[i];
+	}
 	cout << "Server terminated" << endl;
 	delete control_channel;
 }
