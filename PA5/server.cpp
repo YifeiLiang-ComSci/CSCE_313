@@ -171,7 +171,7 @@ void handle_process_loop(RequestChannel *channel){
 		}
 		process_request(channel, buffer);
 	}
-	delete buffer;
+	delete[] buffer;
 }
 
 int main(int argc, char *argv[]){
