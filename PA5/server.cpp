@@ -28,7 +28,7 @@ vector<RequestChannel*> usedChannel;
 pthread_mutex_t newchannel_lock;
 void handle_process_loop(RequestChannel *_channel);
 string ival;
-vector<string> all_data [NUM_PERSONS];
+
 
 
 void process_newchannel_request (RequestChannel *_channel){
@@ -41,11 +41,11 @@ void process_newchannel_request (RequestChannel *_channel){
 	RequestChannel *data_channel = NULL;
 	if(ival =="f"){
 		data_channel = new FIFORequestChannel (new_channel_name, RequestChannel::SERVER_SIDE);
-		usedChannel.push_back(data_channel);
+
 	}
 	else if(ival == "q"){
 		data_channel =  new MQRequestChannel (new_channel_name, RequestChannel::SERVER_SIDE,buffercapacity);
-		usedChannel.push_back(data_channel);
+
 	}
 	thread thread_for_client (handle_process_loop, data_channel);
 	thread_for_client.detach();
@@ -147,6 +147,8 @@ int process_request(RequestChannel *rc, char* _request)
 		process_file_request (rc, _request);
 	}else if (m == NEWCHANNEL_MSG){
 		process_newchannel_request(rc);
+	}else if(m == QUIT_MSG){
+		delete rc;
 	}else{
 		process_unknown_request(rc);
 	}
@@ -170,6 +172,7 @@ void handle_process_loop(RequestChannel *channel){
 		}
 		MESSAGE_TYPE m = *(MESSAGE_TYPE *) buffer;
 		if (m == QUIT_MSG){
+			delete channel;
 			//cout << "Client-side is done and exited" << endl;
 			break;
 			// note that QUIT_MSG does not get a reply from the server
@@ -206,9 +209,6 @@ int main(int argc, char *argv[]){
 		control_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
 	}
 	handle_process_loop (control_channel);
-	for(int i = 0 ; i  < usedChannel.size();i++){
-		delete usedChannel[i];
-	}
 	cout << "Server terminated" << endl;
 	delete control_channel;
 }
