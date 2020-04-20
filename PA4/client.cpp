@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 {
     int n = 15000;    //default number of requests per "patient"
     int p = 15;     // number of patients [1,15]
-    int w = 200;    //default number of worker threads
+    int w = 100;    //default number of worker threads
     int b = 500; 	// default capacity of the request buffer, you should change this default
 	int m = MAX_MESSAGE; 	// default capacity of the message buffer
     srand(time_t(NULL));
