@@ -24,11 +24,11 @@ char* buffer = NULL; // buffer used by the server, allocated in the main
 
 
 int nchannels = 0;
-vector<RequestChannel*> usedChannel;
+
 pthread_mutex_t newchannel_lock;
 void handle_process_loop(RequestChannel *_channel);
 string ival;
-
+vector<string> all_data [NUM_PERSONS];
 
 
 void process_newchannel_request (RequestChannel *_channel){
