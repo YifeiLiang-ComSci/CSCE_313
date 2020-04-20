@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
 
     for(int i = 0 ;i < p; i++){
         MESSAGE_TYPE q = QUIT_MSG;
-        if(wchans[i] != NULL){
+        if(wchans[i] != nullptr){
         wchans[i]->cwrite ((char *) &q, sizeof (MESSAGE_TYPE));
         //cout << "All Done!!!" << endl;
         delete wchans[i];
