@@ -8,10 +8,9 @@
 #include <thread>
 #include <stdio.h>
 #include "MQreqchannel.h"
-
+#include <vector>
 #include "Reqchannel.h"
 using namespace std;
-
 
 RequestChannel* create_new_channel(RequestChannel* mainChan,string ival,int mb){
     char name[1024];
@@ -23,9 +22,11 @@ RequestChannel* create_new_channel(RequestChannel* mainChan,string ival,int mb){
     RequestChannel* newchan = 0;
     if(ival == "f"){
         newchan= new FIFORequestChannel(name,RequestChannel::CLIENT_SIDE);
+
     }
     else if(ival == "q"){
         newchan= new MQRequestChannel(name,RequestChannel::CLIENT_SIDE,mb);
+
     }
     return newchan;
 }
@@ -238,16 +239,19 @@ int main(int argc, char *argv[])
 
     // clean up worker channels
 
-    // for(int i = 0 ;i < p; i++){
-    //     MESSAGE_TYPE q = QUIT_MSG;
-    //     wchans[i]->cwrite ((char *) &q, sizeof (MESSAGE_TYPE));
-    //     //cout << "All Done!!!" << endl;
-    //     delete wchans[i];
+    for(int i = 0 ;i < p; i++){
+        MESSAGE_TYPE q = QUIT_MSG;
+        if(wchans[i] != NULL){
+        wchans[i]->cwrite ((char *) &q, sizeof (MESSAGE_TYPE));
+        //cout << "All Done!!!" << endl;
+        delete wchans[i];
+    }
 
-    // }
+    }
     MESSAGE_TYPE q = QUIT_MSG;
     chan->cwrite ((char *) &q, sizeof (MESSAGE_TYPE));
     cout << "All Done!!!" << endl;
+
     delete chan;
 
     return 0;
