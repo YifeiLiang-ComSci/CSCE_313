@@ -66,7 +66,7 @@ void worker_thread_function(RequestChannel* chan,BoundedBuffer* request_buffer,H
 
             chan->cwrite(m, sizeof(MESSAGE_TYPE));
 
-            delete chan;
+            //delete chan;
             break;
         }else if(*m == FILE_MSG){
             filemsg* fm = (filemsg*) buf;
@@ -239,13 +239,13 @@ int main(int argc, char *argv[])
 
     // clean up worker channels
 
-    for(int i = 0 ;i < p; i++){
-        MESSAGE_TYPE q = QUIT_MSG;
-        if(wchans[i] != nullptr){
-        wchans[i]->cwrite ((char *) &q, sizeof (MESSAGE_TYPE));
+    for(int i = 0 ;i < w; i++){
+        //MESSAGE_TYPE q = QUIT_MSG;
+      //  if(wchans[i] != nullptr){
+        //wchans[i]->cwrite ((char *) &q, sizeof (MESSAGE_TYPE));
         //cout << "All Done!!!" << endl;
         delete wchans[i];
-    }
+    //}
 
     }
     MESSAGE_TYPE q = QUIT_MSG;
