@@ -255,6 +255,7 @@ int main(int argc, char *argv[])
     }
     MESSAGE_TYPE q = QUIT_MSG;
     chan->cwrite ((char *) &q, sizeof (MESSAGE_TYPE));
+    wait(0);
     cout << "All Done!!!" << endl;
 
     delete chan;
