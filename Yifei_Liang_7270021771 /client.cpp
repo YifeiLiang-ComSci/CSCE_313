@@ -28,6 +28,8 @@ RequestChannel* create_new_channel(RequestChannel* mainChan,string ival,int mb){
     else if(ival == "q"){
         newchan= new MQRequestChannel(name,RequestChannel::CLIENT_SIDE,mb);
 
+    } else if(ival == "s"){
+        newchan= new SHMRequestChannel(name,RequestChannel::CLIENT_SIDE,mb);
     }
     return newchan;
 }
@@ -167,6 +169,8 @@ int main(int argc, char *argv[])
         chan = new FIFORequestChannel("control", RequestChannel::CLIENT_SIDE);
     else if(ival == "q")
         chan = new MQRequestChannel("control", RequestChannel::CLIENT_SIDE,m);
+    else if (ival == "s")
+        chan = new SHMRequestChannel("control", RequestChannel::CLIENT_SIDE,m);
     BoundedBuffer request_buffer(b);
 	HistogramCollection hc;
 

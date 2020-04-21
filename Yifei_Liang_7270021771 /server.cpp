@@ -16,6 +16,7 @@
 #include "FIFOreqchannel.h"
 #include "MQreqchannel.h"
 #include "Reqchannel.h"
+#include "SHMreqchannel.h"
 using namespace std;
 
 
@@ -46,6 +47,8 @@ void process_newchannel_request (RequestChannel *_channel){
 	else if(ival == "q"){
 		data_channel =  new MQRequestChannel (new_channel_name, RequestChannel::SERVER_SIDE,buffercapacity);
 
+	} else if(ival == "s"){
+		data_channel =  new SHMRequestChannel (new_channel_name, RequestChannel::SERVER_SIDE,buffercapacity);
 	}
 	thread thread_for_client (handle_process_loop, data_channel);
 	thread_for_client.detach();
@@ -207,6 +210,8 @@ int main(int argc, char *argv[]){
 	else if(ival == "q"){
 
 		control_channel =  new MQRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
+	}else if(ival == "s"){
+		control_channel =  new SHMRequestChannel ("control", RequestChannel::SERVER_SIDE,buffercapacity);
 	}
 	handle_process_loop (control_channel);
 	cout << "Server terminated" << endl;
