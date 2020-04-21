@@ -6,6 +6,8 @@
 #include <semaphore.h>
 #include <fcntl.h>
 #include "Reqchannel.h"
+#include <sys/mman.h>
+#include <sys/stat.h> 
 
 class SMBB{
 private:
@@ -19,7 +21,7 @@ private:
 
 public:
 	SMBB(string _name, int _bufsz):buffersize(_bufsz),name(_name){
-		shmfd = shm_open(name.c_str(),O_RDWR|O_CREEAT,0644);
+		shmfd = shm_open(name.c_str(),O_RDWR|O_CREAT,0644);
 		if(shmfd < 0){
 			perror("SHM Creat Error");
 			exit(0);
@@ -59,7 +61,7 @@ public:
 		sem_post(consumerdone);
 		return len;
 	}
-}
+};
 
 class SHMRequestChannel:public  RequestChannel{
 private:
