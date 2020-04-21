@@ -65,8 +65,8 @@ public:
 
 class SHMRequestChannel:public  RequestChannel{
 private:
-	SHMBB* b1;
-	SHMBB* b2;
+	SMBB* b1;
+	SMBB* b2;
 	string s1, s2;
 	int buffersize;
 public:
