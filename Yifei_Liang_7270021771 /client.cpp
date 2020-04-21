@@ -10,6 +10,8 @@
 #include "MQreqchannel.h"
 #include <vector>
 #include "Reqchannel.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "SHMreqchannel.h"
 using namespace std;
 
