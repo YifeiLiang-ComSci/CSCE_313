@@ -10,6 +10,7 @@
 #include "MQreqchannel.h"
 #include <vector>
 #include "Reqchannel.h"
+#include "SHMreqchannel.h"
 using namespace std;
 
 RequestChannel* create_new_channel(RequestChannel* mainChan,string ival,int mb){
