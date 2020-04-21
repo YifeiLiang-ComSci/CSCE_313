@@ -18,6 +18,6 @@ ls -l /dev/mqueue/
 
 ./client -n 1500 -p 2 -w 100 -b 50 -i s
 ./client -w 100 -f 3.csv -m 256 -i s
-diff BIMDC/3.csv /recv/3.csv
+diff BIMDC/3.csv recv/3.csv
 ./client -w 100 -f test.bin -m 8096 -i s
-ls -l /dev/shms/
+ls -l /dev/shm/
