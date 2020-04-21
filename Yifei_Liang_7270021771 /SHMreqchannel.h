@@ -32,8 +32,8 @@ public:
 			perror("Map Error");
 			exit(0);
 		}
-		producerdone = sem_open((name+"1").c_str(),O_CREEAT,0644,0);
-		consumerdone = sem_open((name+"2").c_str(),O_CREEAT,0644,1);
+		producerdone = sem_open((name+"1").c_str(),O_CREAT,0644,0);
+		consumerdone = sem_open((name+"2").c_str(),O_CREAT,0644,1);
 	}
 
 	~SMBB(){
@@ -44,7 +44,7 @@ public:
 		sem_close(producerdone);
 		sem_close(consumerdone);
 
-		sem_unlink((name+"1"),c_str());
+		sem_unlink((name+"1").c_str());
 		sem_unlink((name+"2").c_str());
 	}
 
